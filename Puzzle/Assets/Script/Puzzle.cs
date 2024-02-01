@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Puzzle
@@ -9,13 +9,13 @@ namespace Puzzle
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            // ƒhƒ‰ƒbƒO‘O‚ÌˆÊ’u‚ğ‹L‰¯‚µ‚Ä‚¨‚­
+            // ãƒ‰ãƒ©ãƒƒã‚°å‰ã®ä½ç½®ã‚’è¨˜æ†¶ã—ã¦ãŠã
             prevPos = transform.position;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            // ƒhƒ‰ƒbƒO’†‚ÍˆÊ’u‚ğXV‚·‚é
+            // ãƒ‰ãƒ©ãƒƒã‚°ä¸­ã¯ä½ç½®ã‚’æ›´æ–°ã™ã‚‹
             transform.position = eventData.position;
         }
 
