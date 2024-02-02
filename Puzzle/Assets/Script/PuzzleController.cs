@@ -9,6 +9,7 @@ namespace Puzzle
         #region PrivateField
         /// <summary>範囲内に含まれているか</summary>
         private bool isTargetArea;
+        private List<Puzzle> puzzleList = new List<Puzzle>();
         #endregion
 
         #region SerializeField
@@ -52,7 +53,9 @@ namespace Puzzle
                 puzzleObj.DropPieceSubject.Subscribe(puzzle =>
                 {
                     DropPiece(puzzle);
-                }).AddTo(this);   
+                }).AddTo(this);
+
+                puzzleList.Add(puzzleObj);
             }
         }
 
@@ -69,6 +72,10 @@ namespace Puzzle
                 if (isTargetArea)
                 {
                     puzzle.SetPuzzle(targetLocation);
+
+                    puzzleList.Remove(puzzle);
+
+                    CheckPuzzleList();
 
                     return;
                 }
@@ -87,6 +94,17 @@ namespace Puzzle
             var targetCollider = targetLocation.GetComponent<Collider2D>();
 
             return targetCollider.OverlapPoint(piecePosition);
+        }
+
+        /// <summary>
+        /// 操作するパズルが残っているか判定を行う
+        /// </summary>
+        private void CheckPuzzleList()
+        {
+            if (puzzleList != null && puzzleList.Count <= 0)
+            {
+                CreatePuzzle();
+            }
         }
         #endregion
     }
