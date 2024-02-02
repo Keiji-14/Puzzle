@@ -1,10 +1,16 @@
-﻿using UnityEngine;
+﻿using UniRx;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Puzzle
 {
     public class Puzzle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
+        #region PublicField
+        /// <summary>ピースをドロップした時の処理</summary>
+        public Subject<Puzzle> DropPieceSubject = new Subject<Puzzle>(); 
+        #endregion
+
         #region PrivateField
         /// <summary>元の座標</summary>
         private Vector2 prevPos;
@@ -14,6 +20,24 @@ namespace Puzzle
         private Vector3 defaultSize;
         #endregion
 
+        #region EventSystemMethod
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            transform.localScale = defaultSize;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            DropPieceSubject.OnNext(this);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            // ドラッグ中は位置を更新する
+            transform.position = eventData.position;
+        }
+        #endregion
+
         #region PublicMethod
         /// <summary>
         /// 初期化
@@ -21,7 +45,7 @@ namespace Puzzle
         public void Init()
         {
             // ドラッグ前の位置とサイズを保持する
-            prevPos = transform.position;
+            prevPos = transform.localPosition;
             defaultSize = transform.localScale;
 
             // サイズを小さくする
@@ -30,20 +54,21 @@ namespace Puzzle
             unDraggedSize = transform.localScale;
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+        /// <summary>
+        /// パズルを配置する処理
+        /// </summary>
+        public void SetPuzzle()
         {
-            transform.localScale = defaultSize;
-        }
-        
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            transform.localScale = unDraggedSize;
+            // Todo: 配置時の処理を追加する
         }
 
-        public void OnDrag(PointerEventData eventData)
+        /// <summary>
+        /// パズルを元の場所に設定する処理
+        /// </summary>
+        public void SetProvPuzzle()
         {
-            // ドラッグ中は位置を更新する
-            transform.position = eventData.position;
+            transform.localPosition = prevPos;
+            transform.localScale = unDraggedSize;
         }
         #endregion
     }
