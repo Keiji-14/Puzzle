@@ -23,10 +23,23 @@ namespace Puzzle
         /// </summary>
         public void Init()
         {
+            CreatePuzzle();
+        }
+        #endregion
+
+        #region PrivateMethod
+        /// <summary>
+        /// パズルを生成する処理
+        /// </summary>
+        private void CreatePuzzle()
+        {
             // パズルを生成する処理
-            foreach(var createPos in createPosList)
+            foreach (var createPos in createPosList)
             {
-                var puzzleObj = Instantiate(puzzle, puzzleParent);
+                var puzzleObj = Instantiate(puzzle, puzzleParent).GetComponent<Puzzle>();
+
+                puzzleObj.Init();
+
                 // 指定した座標に移動
                 puzzleObj.transform.localPosition = createPos;
             }
