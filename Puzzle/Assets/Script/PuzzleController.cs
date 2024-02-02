@@ -68,7 +68,7 @@ namespace Puzzle
                 // パズルが範囲内に含まれているか
                 if (isTargetArea)
                 {
-                    puzzle.SetPuzzle();
+                    puzzle.SetPuzzle(targetLocation);
 
                     return;
                 }

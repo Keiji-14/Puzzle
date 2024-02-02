@@ -8,10 +8,11 @@ namespace Puzzle
     {
         #region PublicField
         /// <summary>ピースをドロップした時の処理</summary>
-        public Subject<Puzzle> DropPieceSubject = new Subject<Puzzle>(); 
+        public Subject<Puzzle> DropPieceSubject = new Subject<Puzzle>();
         #endregion
 
         #region PrivateField
+        private bool isSetted;
         /// <summary>元の座標</summary>
         private Vector2 prevPos;
         /// <summary>ドラッグ前のサイズ</summary>
@@ -23,18 +24,27 @@ namespace Puzzle
         #region EventSystemMethod
         public void OnPointerDown(PointerEventData eventData)
         {
-            transform.localScale = defaultSize;
+            if (!isSetted)
+            {
+                transform.localScale = defaultSize;
+            }
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            DropPieceSubject.OnNext(this);
+            if (!isSetted)
+            {
+                DropPieceSubject.OnNext(this);
+            }
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            // ドラッグ中は位置を更新する
-            transform.position = eventData.position;
+            if (!isSetted)
+            {
+                // ドラッグ中は位置を更新する
+                transform.position = eventData.position;
+            }
         }
         #endregion
 
@@ -57,9 +67,11 @@ namespace Puzzle
         /// <summary>
         /// パズルを配置する処理
         /// </summary>
-        public void SetPuzzle()
+        public void SetPuzzle(Transform targetPos)
         {
             // Todo: 配置時の処理を追加する
+            transform.localPosition = targetPos.localPosition;
+            isSetted = true;
         }
 
         /// <summary>
