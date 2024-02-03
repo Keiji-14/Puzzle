@@ -69,9 +69,20 @@ namespace Puzzle
         /// </summary>
         public void SetPuzzle(Transform targetPos)
         {
-            // Todo: 配置時の処理を追加する
             transform.localPosition = targetPos.localPosition;
             isSetted = true;
+        }
+
+        /// <summary>
+        /// パズルをストックする処理
+        /// </summary>
+        public void SetStock(Transform targetPos)
+        {
+            transform.localPosition = targetPos.localPosition;
+            transform.localScale = unDraggedSize;
+
+            // 初期座標をストック場所に変更
+            prevPos = transform.localPosition;
         }
 
         /// <summary>

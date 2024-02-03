@@ -7,20 +7,23 @@ namespace Puzzle
     public class PuzzleController : MonoBehaviour
     {
         #region PrivateField
-        /// <summary>範囲内に含まれているか</summary>
-        private bool isTargetArea;
-        private List<PuzzlePiece> puzzlePieceList = new List<PuzzlePiece>();
+        /// <summary>ストックしているパズルピース</summary>
+        private PuzzlePiece stockPuzzlePiece;
+        /// <summary>生成したパズルのリスト</summary>
+        private List<PuzzlePiece> createPuzzlePieceList = new List<PuzzlePiece>();
         #endregion
 
         #region SerializeField
         /// <summary>パズルの生成場所</summary>
         [SerializeField] Transform puzzlePieceParent;
+        /// <summary>ストックする場所/summary>
+        [SerializeField] Transform stockPos;
         [Header("List")]
         [SerializeField] List<Transform> targetLocationList = new List<Transform>();
         /// <summary>パズルの生成座標</summary>
         [SerializeField] List<Vector3> createPosList = new List<Vector3>();
         [Header("Component")]
-        /// <summary>パズル</summary>
+        /// <summary>生成するパズルピースのプレハブ</summary>
         [SerializeField] PuzzlePiece puzzlePiece;
         #endregion
 
@@ -55,33 +58,50 @@ namespace Puzzle
                     DropPiece(puzzle);
                 }).AddTo(this);
 
-                puzzlePieceList.Add(puzzlePieceObj);
+                createPuzzlePieceList.Add(puzzlePieceObj);
             }
         }
 
         /// <summary>
         /// パズルピースをドロップした時の処理
         /// </summary>
+        /// <param name="puzzlePiece">ドロップしたパズルピース</param>
         private void DropPiece(PuzzlePiece puzzlePiece)
         {
+            var isStockArea = IsTargetArea(puzzlePiece.gameObject.transform.position, stockPos);
+
+            // パズルピースがストック範囲内に含まれているか
+            // またはストック済みかどうか
+            if (isStockArea && stockPuzzlePiece == null)
+            {
+                stockPuzzlePiece = puzzlePiece;
+
+                puzzlePiece.SetStock(stockPos);
+
+                createPuzzlePieceList.Remove(puzzlePiece);
+
+                CheckPuzzleList();
+
+                return;
+            }
+
             foreach (var targetLocation in targetLocationList)
             {
-                isTargetArea = IsTargetArea(puzzlePiece.gameObject.transform.position, targetLocation);
+                var isTargetArea = IsTargetArea(puzzlePiece.gameObject.transform.position, targetLocation);
 
-                // パズルが範囲内に含まれているか
+                // パズルピースが範囲内に含まれているか
                 if (isTargetArea)
                 {
                     puzzlePiece.SetPuzzle(targetLocation);
 
-                    puzzlePieceList.Remove(puzzlePiece);
-
-                    CheckPuzzleList();
+                    ChackStockPiece(puzzlePiece);
 
                     return;
                 }
                 
             }
 
+            // ストックや盤面の範囲内に含まれていない場合は初期位置に戻す
             puzzlePiece.SetProvPuzzle();
         }
 
@@ -97,11 +117,34 @@ namespace Puzzle
         }
 
         /// <summary>
+        /// 配置したピースがストックからのピースかどうか判定
+        /// </summary>
+        /// <param name="puzzlePiece">ドロップしたパズルピース</param>
+        private void ChackStockPiece(PuzzlePiece puzzlePiece)
+        {
+            createPuzzlePieceList.Find(piece => piece == puzzlePiece);
+
+            // 生成したパズルピースのリストからかどうかを判定
+            if (createPuzzlePieceList.Find(piece => piece == puzzlePiece))
+            {
+                // ストックの場合はストックを空にする
+                createPuzzlePieceList.Remove(puzzlePiece);
+            }
+            else
+            {
+                // ストックの場合はストックを空にする
+                stockPuzzlePiece = null;
+            }
+
+            CheckPuzzleList();
+        }
+
+        /// <summary>
         /// 操作するパズルが残っているか判定を行う
         /// </summary>
         private void CheckPuzzleList()
         {
-            if (puzzlePieceList != null && puzzlePieceList.Count <= 0)
+            if (createPuzzlePieceList != null && createPuzzlePieceList.Count <= 0)
             {
                 CreatePuzzle();
             }
