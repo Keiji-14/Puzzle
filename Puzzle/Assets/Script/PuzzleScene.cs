@@ -9,11 +9,13 @@ namespace Puzzle
         [SerializeField] private PuzzleController puzzleController;
         #endregion
 
+        #region UnityEvent
         public override void Start()
         {
             base.Start();
 
             puzzleController.Init();    
         }
+        #endregion
     }
 }

@@ -18,13 +18,12 @@ namespace Puzzle
         [SerializeField] Transform puzzlePieceParent;
         /// <summary>ストックする場所/summary>
         [SerializeField] Transform stockPos;
-        [Header("List")]
-        [SerializeField] List<Transform> targetLocationList = new List<Transform>();
         /// <summary>パズルの生成座標</summary>
         [SerializeField] List<Vector3> createPosList = new List<Vector3>();
         [Header("Component")]
         /// <summary>生成するパズルピースのプレハブ</summary>
         [SerializeField] PuzzlePiece puzzlePiece;
+        [SerializeField] List<PuzzleFrame> targetLocationList = new List<PuzzleFrame>();
         #endregion
 
         #region PublicMethod
@@ -87,18 +86,19 @@ namespace Puzzle
 
             foreach (var targetLocation in targetLocationList)
             {
-                var isTargetArea = IsTargetArea(puzzlePiece.gameObject.transform.position, targetLocation);
+                var isTargetArea = IsTargetArea(puzzlePiece.gameObject.transform.position, targetLocation.transform);
 
                 // パズルピースが範囲内に含まれているか
-                if (isTargetArea)
+                if (isTargetArea && !targetLocation.isSetted)
                 {
-                    puzzlePiece.SetPuzzle(targetLocation);
+                    targetLocation.isSetted = true;
+
+                    puzzlePiece.SetPuzzle(targetLocation.transform);
 
                     ChackStockPiece(puzzlePiece);
 
                     return;
                 }
-                
             }
 
             // ストックや盤面の範囲内に含まれていない場合は初期位置に戻す
