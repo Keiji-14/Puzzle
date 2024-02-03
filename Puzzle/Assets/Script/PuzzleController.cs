@@ -9,19 +9,19 @@ namespace Puzzle
         #region PrivateField
         /// <summary>範囲内に含まれているか</summary>
         private bool isTargetArea;
-        private List<Puzzle> puzzleList = new List<Puzzle>();
+        private List<PuzzlePiece> puzzlePieceList = new List<PuzzlePiece>();
         #endregion
 
         #region SerializeField
         /// <summary>パズルの生成場所</summary>
-        [SerializeField] Transform puzzleParent;
+        [SerializeField] Transform puzzlePieceParent;
         [Header("List")]
         [SerializeField] List<Transform> targetLocationList = new List<Transform>();
         /// <summary>パズルの生成座標</summary>
         [SerializeField] List<Vector3> createPosList = new List<Vector3>();
         [Header("Component")]
         /// <summary>パズル</summary>
-        [SerializeField] Puzzle puzzle;
+        [SerializeField] PuzzlePiece puzzlePiece;
         #endregion
 
         #region PublicMethod
@@ -40,40 +40,40 @@ namespace Puzzle
         /// </summary>
         private void CreatePuzzle()
         {
-            // パズルを生成する処理
+            // パズルピースを生成する処理
             foreach (var createPos in createPosList)
             {
-                var puzzleObj = Instantiate(puzzle, puzzleParent).GetComponent<Puzzle>();
+                var puzzlePieceObj = Instantiate(puzzlePiece, puzzlePieceParent).GetComponent<PuzzlePiece>();
 
                 // 指定した座標に移動
-                puzzleObj.transform.localPosition = createPos;
+                puzzlePieceObj.transform.localPosition = createPos;
 
-                puzzleObj.Init();
+                puzzlePieceObj.Init();
 
-                puzzleObj.DropPieceSubject.Subscribe(puzzle =>
+                puzzlePieceObj.DropPieceSubject.Subscribe(puzzle =>
                 {
                     DropPiece(puzzle);
                 }).AddTo(this);
 
-                puzzleList.Add(puzzleObj);
+                puzzlePieceList.Add(puzzlePieceObj);
             }
         }
 
         /// <summary>
         /// パズルピースをドロップした時の処理
         /// </summary>
-        private void DropPiece(Puzzle puzzle)
+        private void DropPiece(PuzzlePiece puzzlePiece)
         {
             foreach (var targetLocation in targetLocationList)
             {
-                isTargetArea = IsTargetArea(puzzle.gameObject.transform.position, targetLocation);
+                isTargetArea = IsTargetArea(puzzlePiece.gameObject.transform.position, targetLocation);
 
                 // パズルが範囲内に含まれているか
                 if (isTargetArea)
                 {
-                    puzzle.SetPuzzle(targetLocation);
+                    puzzlePiece.SetPuzzle(targetLocation);
 
-                    puzzleList.Remove(puzzle);
+                    puzzlePieceList.Remove(puzzlePiece);
 
                     CheckPuzzleList();
 
@@ -82,7 +82,7 @@ namespace Puzzle
                 
             }
 
-            puzzle.SetProvPuzzle();
+            puzzlePiece.SetProvPuzzle();
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Puzzle
         /// </summary>
         private void CheckPuzzleList()
         {
-            if (puzzleList != null && puzzleList.Count <= 0)
+            if (puzzlePieceList != null && puzzlePieceList.Count <= 0)
             {
                 CreatePuzzle();
             }

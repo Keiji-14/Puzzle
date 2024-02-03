@@ -4,11 +4,11 @@ using UnityEngine.EventSystems;
 
 namespace Puzzle
 {
-    public class Puzzle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+    public class PuzzlePiece : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         #region PublicField
         /// <summary>ピースをドロップした時の処理</summary>
-        public Subject<Puzzle> DropPieceSubject = new Subject<Puzzle>();
+        public Subject<PuzzlePiece> DropPieceSubject = new Subject<PuzzlePiece>();
         #endregion
 
         #region PrivateField
