@@ -7,15 +7,21 @@ namespace Puzzle
     public class PuzzleController : MonoBehaviour
     {
         #region PrivateField
+        private const int boardMax = 100;
+
         /// <summary>ストックしているパズルピース</summary>
         private PuzzlePiece stockPuzzlePiece;
         /// <summary>生成したパズルのリスト</summary>
         private List<PuzzlePiece> createPuzzlePieceList = new List<PuzzlePiece>();
+        /// <summary>盤面のリスト</summary>
+        private List<PuzzleBoard> puzzleBoardList = new List<PuzzleBoard>();
         #endregion
 
         #region SerializeField
         /// <summary>パズルの生成場所</summary>
         [SerializeField] Transform puzzlePieceParent;
+        /// <summary>盤面の生成場所</summary>
+        [SerializeField] Transform puzzleBoardParent;
         /// <summary>ストックする場所/summary>
         [SerializeField] Transform stockPos;
         /// <summary>パズルの生成座標</summary>
@@ -23,7 +29,8 @@ namespace Puzzle
         [Header("Component")]
         /// <summary>生成するパズルピースのプレハブ</summary>
         [SerializeField] PuzzlePiece puzzlePiece;
-        [SerializeField] List<PuzzleFrame> targetLocationList = new List<PuzzleFrame>();
+        /// <summary>生成する配置枠のプレハブ</summary>
+        [SerializeField] PuzzleBoard puzzleBoard;
         #endregion
 
         #region PublicMethod
@@ -33,6 +40,8 @@ namespace Puzzle
         public void Init()
         {
             CreatePuzzle();
+
+            CreateBoard();
         }
         #endregion
 
@@ -62,6 +71,20 @@ namespace Puzzle
         }
 
         /// <summary>
+        /// 盤面を生成する処理
+        /// </summary>
+        private void CreateBoard()
+        {
+            // 盤面を生成する処理
+            for (int i = 0; i < boardMax; i++)
+            {
+                var puzzleBoardObj = Instantiate(puzzleBoard, puzzleBoardParent).GetComponent<PuzzleBoard>();
+
+                puzzleBoardList.Add(puzzleBoardObj);
+            }
+        }
+
+        /// <summary>
         /// パズルピースをドロップした時の処理
         /// </summary>
         /// <param name="puzzlePiece">ドロップしたパズルピース</param>
@@ -84,16 +107,16 @@ namespace Puzzle
                 return;
             }
 
-            foreach (var targetLocation in targetLocationList)
+            foreach (var puzzleBoard in puzzleBoardList)
             {
-                var isTargetArea = IsTargetArea(puzzlePiece.gameObject.transform.position, targetLocation.transform);
+                var isTargetArea = IsTargetArea(puzzlePiece.gameObject.transform.position, puzzleBoard.transform);
 
                 // パズルピースが範囲内に含まれているか
-                if (isTargetArea && !targetLocation.isSetted)
+                if (isTargetArea && !puzzleBoard.isSetted)
                 {
-                    targetLocation.isSetted = true;
+                    puzzleBoard.isSetted = true;
 
-                    puzzlePiece.SetPuzzle(targetLocation.transform);
+                    puzzlePiece.SetPuzzle(puzzleBoard.transform);
 
                     ChackStockPiece(puzzlePiece);
 
