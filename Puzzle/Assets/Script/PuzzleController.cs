@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -7,8 +8,10 @@ namespace Puzzle
     public class PuzzleController : MonoBehaviour
     {
         #region PrivateField
+        /// <summary>一列のマスの数</summary>
+        private const int lineSquareNum = 10;
+        /// <summary>盤面のマスの最大値</summary>
         private const int boardMax = 100;
-
         /// <summary>ストックしているパズルピース</summary>
         private PuzzlePiece stockPuzzlePiece;
         /// <summary>生成したパズルのリスト</summary>
@@ -160,6 +163,55 @@ namespace Puzzle
             }
 
             CheckPuzzleList();
+
+            CheckBoardLine();
+        }
+
+        /// <summary>
+        /// 盤面に列が出来ているか判定を行う
+        /// </summary>
+        private void CheckBoardLine()
+        {
+            for (int i = 0; i < boardMax; i += lineSquareNum)
+            {
+                List<bool> isHorizontalMatch = new List<bool>();
+                
+                // 一列毎にマスの状態を取得
+                for (int j = i; j < Math.Min(i + lineSquareNum, boardMax); j++)
+                {
+                    isHorizontalMatch.Add(puzzleBoardList[j].isSetted);
+                }
+
+                // 一列出来ているか確認
+                if (IsBoardLine(isHorizontalMatch))
+                {
+                    Debug.Log("Line");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 列が出来ているかかうか判定
+        /// </summary>
+        /// <returns>一列が出来てかどうかの結果</returns>
+        private bool IsBoardLine(List<bool> isSquareMatchList)
+        {
+            var isMatch = true;
+
+            // 列のマス毎に確認する
+            foreach (var isSquareMatch in isSquareMatchList)
+            {
+                // マスにピースが入っているか判定
+                if (!isSquareMatch)
+                {
+                    // 一つでもピースがはまっていない場合はfalseでループ終了
+                    isMatch = false;
+
+                    break;
+                }
+            }
+
+            return isMatch;
         }
 
         /// <summary>
