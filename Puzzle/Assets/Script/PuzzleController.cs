@@ -8,6 +8,8 @@ namespace Puzzle
     public class PuzzleController : MonoBehaviour
     {
         #region PrivateField
+        /// <summary>列を消去時の値</summary>
+        private int destroyLineNum;
         /// <summary>一列のマスの数</summary>
         private const int lineSquareNum = 10;
         /// <summary>盤面のマスの最大値</summary>
@@ -110,6 +112,7 @@ namespace Puzzle
                 return;
             }
 
+
             foreach (var puzzleBoard in puzzleBoardList)
             {
                 var isTargetArea = IsTargetArea(puzzlePiece.gameObject.transform.position, puzzleBoard.transform);
@@ -118,6 +121,8 @@ namespace Puzzle
                 if (isTargetArea && !puzzleBoard.isSetted)
                 {
                     puzzleBoard.isSetted = true;
+
+                    puzzleBoard.setPieceObj = puzzlePiece.gameObject;
 
                     puzzlePiece.SetPuzzle(puzzleBoard.transform);
 
@@ -153,7 +158,6 @@ namespace Puzzle
             // 生成したパズルピースのリストからかどうかを判定
             if (createPuzzlePieceList.Find(piece => piece == puzzlePiece))
             {
-                // ストックの場合はストックを空にする
                 createPuzzlePieceList.Remove(puzzlePiece);
             }
             else
@@ -162,9 +166,9 @@ namespace Puzzle
                 stockPuzzlePiece = null;
             }
 
-            CheckPuzzleList();
-
             CheckBoardLine();
+
+            CheckPuzzleList();
         }
 
         /// <summary>
@@ -172,21 +176,50 @@ namespace Puzzle
         /// </summary>
         private void CheckBoardLine()
         {
+            List<PuzzleBoard> destroyPuzzleLineList = new List<PuzzleBoard>();
+
+            // 横の列の判定
             for (int i = 0; i < boardMax; i += lineSquareNum)
             {
-                List<bool> isHorizontalMatch = new List<bool>();
+                List<PuzzleBoard> horizontalBoardLine = new List<PuzzleBoard>();
                 
-                // 一列毎にマスの状態を取得
+                // 一列毎にマスを取得
                 for (int j = i; j < Math.Min(i + lineSquareNum, boardMax); j++)
                 {
-                    isHorizontalMatch.Add(puzzleBoardList[j].isSetted);
+                    horizontalBoardLine.Add(puzzleBoardList[j]);
                 }
 
                 // 一列出来ているか確認
-                if (IsBoardLine(isHorizontalMatch))
+                if (IsBoardLine(horizontalBoardLine))
                 {
-                    Debug.Log("Line");
+                    destroyLineNum++;
+                    destroyPuzzleLineList.AddRange(horizontalBoardLine);
                 }
+            }
+
+            // 縦の列の判定
+            for (int i = 0; i < lineSquareNum; i++)
+            {
+                List<PuzzleBoard> verticalBoardLine = new List<PuzzleBoard>();
+
+                // 一列毎にマスを取得
+                for (int j = i; j < boardMax; j += lineSquareNum)
+                {
+                    Debug.Log(j);
+                    verticalBoardLine.Add(puzzleBoardList[j]);
+                }
+
+                // 一列出来ているか確認
+                if (IsBoardLine(verticalBoardLine))
+                {
+                    destroyLineNum++;
+                    destroyPuzzleLineList.AddRange(verticalBoardLine);
+                }
+            }
+
+            if (destroyPuzzleLineList.Count != 0)
+            {
+                DestroyLine(destroyPuzzleLineList);
             }
         }
 
@@ -194,15 +227,15 @@ namespace Puzzle
         /// 列が出来ているかかうか判定
         /// </summary>
         /// <returns>一列が出来てかどうかの結果</returns>
-        private bool IsBoardLine(List<bool> isSquareMatchList)
+        private bool IsBoardLine(List<PuzzleBoard> puzzleBoardList)
         {
             var isMatch = true;
 
             // 列のマス毎に確認する
-            foreach (var isSquareMatch in isSquareMatchList)
+            foreach (var puzzleBoard in puzzleBoardList)
             {
                 // マスにピースが入っているか判定
-                if (!isSquareMatch)
+                if (!puzzleBoard.isSetted)
                 {
                     // 一つでもピースがはまっていない場合はfalseでループ終了
                     isMatch = false;
@@ -212,6 +245,21 @@ namespace Puzzle
             }
 
             return isMatch;
+        }
+
+        /// <summary>
+        /// 完成した列を削除する
+        /// </summary>
+        private void DestroyLine(List<PuzzleBoard> puzzleBoardList)
+        {
+            foreach (var puzzleBoard in puzzleBoardList)
+            {
+                Destroy(puzzleBoard.setPieceObj);
+
+                puzzleBoard.setPieceObj = null;
+                // 配置状態を解除
+                puzzleBoard.isSetted = false;
+            }
         }
 
         /// <summary>
