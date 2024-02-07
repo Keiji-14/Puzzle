@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,6 +10,8 @@ namespace Puzzle
         #region PublicField
         /// <summary>ピースをドロップした時の処理</summary>
         public Subject<PuzzlePiece> DropPieceSubject = new Subject<PuzzlePiece>();
+        /// <summary>ピースの一マス</summary>
+        public List<Piece> pieceList = new List<Piece>();
         #endregion
 
         #region PrivateField
@@ -24,27 +27,18 @@ namespace Puzzle
         #region EventSystemMethod
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (!isSetted)
-            {
-                transform.localScale = defaultSize;
-            }
+            transform.localScale = defaultSize;
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (!isSetted)
-            {
-                DropPieceSubject.OnNext(this);
-            }
+            DropPieceSubject.OnNext(this);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            if (!isSetted)
-            {
-                // ドラッグ中は位置を更新する
-                transform.position = eventData.position;
-            }
+            // ドラッグ中は位置を更新する
+            transform.position = eventData.position;
         }
         #endregion
 
@@ -65,12 +59,11 @@ namespace Puzzle
         }
 
         /// <summary>
-        /// パズルを配置する処理
+        /// パズル配置後に削除する
         /// </summary>
-        public void SetPuzzle(Transform targetPos)
+        public void DestroyPuzzlePiece()
         {
-            transform.localPosition = targetPos.localPosition;
-            isSetted = true;
+            Destroy(gameObject);
         }
 
         /// <summary>
@@ -92,6 +85,12 @@ namespace Puzzle
         {
             transform.localPosition = prevPos;
             transform.localScale = unDraggedSize;
+        
+            // 設置状態を解除
+            foreach (var piece in pieceList)
+            {
+                piece.isSetted = false;
+            }
         }
         #endregion
     }

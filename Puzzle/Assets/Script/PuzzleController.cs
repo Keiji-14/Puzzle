@@ -27,6 +27,8 @@ namespace Puzzle
         [SerializeField] Transform puzzlePieceParent;
         /// <summary>盤面の生成場所</summary>
         [SerializeField] Transform puzzleBoardParent;
+        /// <summary>配置したパズルの場所</summary>
+        [SerializeField] Transform setPuzzlePieceParent;
         /// <summary>ストックする場所/summary>
         [SerializeField] Transform stockPos;
         /// <summary>パズルの生成座標</summary>
@@ -95,6 +97,28 @@ namespace Puzzle
         /// <param name="puzzlePiece">ドロップしたパズルピース</param>
         private void DropPiece(PuzzlePiece puzzlePiece)
         {
+            SetStockPiece(puzzlePiece);
+
+            ChackPuzzlePiece(puzzlePiece);
+        }
+
+        /// <summary>
+        /// ピースが範囲内かどうか判定
+        /// </summary>
+        /// <returns>範囲内かどうかの結果</returns>
+        private bool IsTargetArea(Vector3 piecePosition, Transform targetLocation)
+        {
+            var targetCollider = targetLocation.GetComponent<Collider2D>();
+
+            return targetCollider.OverlapPoint(piecePosition);
+        }
+
+        /// <summary>
+        /// パズルピースをストックする時の処理
+        /// </summary>
+        /// <param name="puzzlePiece">ドロップしたパズルピース</param>
+        private void SetStockPiece(PuzzlePiece puzzlePiece)
+        {
             var isStockArea = IsTargetArea(puzzlePiece.gameObject.transform.position, stockPos);
 
             // パズルピースがストック範囲内に含まれているか
@@ -111,40 +135,70 @@ namespace Puzzle
 
                 return;
             }
+        }
 
+        /// <summary>
+        /// パズルピースが配置出来るかを確認する処理
+        /// </summary>
+        /// <param name="puzzlePiece">ドロップしたパズルピース</param>
+        private void ChackPuzzlePiece(PuzzlePiece puzzlePiece)
+        {
+            // foreachで盤面を一時取得する
+            List<PuzzleBoard> anSetBoardList = new List<PuzzleBoard>();
 
-            foreach (var puzzleBoard in puzzleBoardList)
+            foreach (var piece in puzzlePiece.pieceList)
             {
-                var isTargetArea = IsTargetArea(puzzlePiece.gameObject.transform.position, puzzleBoard.transform);
-
-                // パズルピースが範囲内に含まれているか
-                if (isTargetArea && !puzzleBoard.isSetted)
+                foreach (var puzzleBoard in puzzleBoardList)
                 {
-                    puzzleBoard.isSetted = true;
+                    var isSetBoardArea = IsTargetArea(piece.transform.position, puzzleBoard.transform);
 
-                    puzzleBoard.setPieceObj = puzzlePiece.gameObject;
+                    // パズルピースが範囲内に含まれているか
+                    if (isSetBoardArea && puzzleBoard.setPieceObj == null)
+                    {
+                        piece.isSetted = true;
 
-                    puzzlePiece.SetPuzzle(puzzleBoard.transform);
+                        // 配置予定の盤面を追加
+                        anSetBoardList.Add(puzzleBoard);
 
-                    ChackStockPiece(puzzlePiece);
-
-                    return;
+                        break;
+                    }
                 }
+            }
+
+            // 配置出来るかを判定する処理
+            var isPlaceable = true;
+
+            foreach (var piece in puzzlePiece.pieceList)
+            {
+                // 一つでも配置出来ない場合はfalseを返す
+                if (!piece.isSetted)
+                {
+                    isPlaceable = false;
+                }
+            }
+
+            if (isPlaceable)
+            {
+                var count = Mathf.Min(puzzlePiece.pieceList.Count, anSetBoardList.Count);
+
+                for (int i = 0; i < count; i++)
+                {
+                    var piece = puzzlePiece.pieceList[i];
+                    var board = anSetBoardList[i];
+
+                    piece.transform.SetParent(setPuzzlePieceParent);
+                    piece.transform.localPosition = board.transform.localPosition;
+
+                    board.setPieceObj = piece.gameObject;
+                }
+
+                ChackStockPiece(puzzlePiece);
+
+                return;
             }
 
             // ストックや盤面の範囲内に含まれていない場合は初期位置に戻す
             puzzlePiece.SetProvPuzzle();
-        }
-
-        /// <summary>
-        /// ピースが範囲内かどうか判定
-        /// </summary>
-        /// <returns>範囲内かどうかの結果</returns>
-        private bool IsTargetArea(Vector3 piecePosition, Transform targetLocation)
-        {
-            var targetCollider = targetLocation.GetComponent<Collider2D>();
-
-            return targetCollider.OverlapPoint(piecePosition);
         }
 
         /// <summary>
@@ -229,22 +283,18 @@ namespace Puzzle
         /// <returns>一列が出来てかどうかの結果</returns>
         private bool IsBoardLine(List<PuzzleBoard> puzzleBoardList)
         {
-            var isMatch = true;
-
             // 列のマス毎に確認する
             foreach (var puzzleBoard in puzzleBoardList)
             {
                 // マスにピースが入っているか判定
-                if (!puzzleBoard.isSetted)
+                if (puzzleBoard.setPieceObj == null)
                 {
-                    // 一つでもピースがはまっていない場合はfalseでループ終了
-                    isMatch = false;
-
-                    break;
+                    // 一つでもピースがはまっていない場合はfalseを返す
+                    return false;
                 }
             }
 
-            return isMatch;
+            return true;
         }
 
         /// <summary>
@@ -257,8 +307,6 @@ namespace Puzzle
                 Destroy(puzzleBoard.setPieceObj);
 
                 puzzleBoard.setPieceObj = null;
-                // 配置状態を解除
-                puzzleBoard.isSetted = false;
             }
         }
 
