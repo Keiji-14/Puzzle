@@ -1,4 +1,4 @@
-using Scene;
+﻿using Scene;
 using UnityEngine;
 
 namespace Puzzle
@@ -9,11 +9,13 @@ namespace Puzzle
         [SerializeField] private PuzzleController puzzleController;
         #endregion
 
-        private new void Start()
+        #region UnityEvent
+        public override void Start()
         {
             base.Start();
 
-            //puzzleController.Init();    
+            puzzleController.Init();    
         }
+        #endregion
     }
 }

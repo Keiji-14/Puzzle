@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Scene
@@ -6,9 +6,9 @@ namespace Scene
     public class SceneBase : MonoBehaviour
     {
         #region UnityEvent
-        public void Start()
+        public virtual void Start()
         {
-            // EventSystem‚Ì—L–³‚Å¶¬‚·‚éˆ—
+            // EventSystemã®æœ‰ç„¡ã§ç”Ÿæˆã™ã‚‹å‡¦ç†
             if (EventSystem.current == null)
             {
                 new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
