@@ -232,7 +232,63 @@ namespace Puzzle
 
             CheckBoardLine();
 
-            CheckPuzzleList();
+            CheckGameOver();
+        }
+
+        /// <summary>
+        /// ゲームオーバーかどうか確認する
+        /// </summary>
+        private void CheckGameOver()
+        {
+            if (IsGameOver())
+            {
+                // Todo: ゲームオーバーの表示処理を追加する
+            }
+            else
+            {
+                CheckPuzzleList();
+            }
+        }
+
+        /// <summary>
+        /// ゲームオーバー判定
+        /// </summary>
+        /// <returns>ゲームオーバーかどうかの判定結果</returns>
+        private bool IsGameOver()
+        {
+            for (int i = 0; i < puzzleBoardList.Count; i++)
+            {
+                if (IsCanSetPuzzlePiece(i))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 特定のピースのはめ込む場所があるかの判定
+        /// </summary>
+        private bool IsCanSetPuzzlePiece(int startIndex)
+        {
+            // ピースの形状
+            int[] puzzlePiecePattern = { 0, 1 };
+
+            foreach (int offset in puzzlePiecePattern)
+            {
+                int currentIndex = startIndex + offset;
+
+                // 範囲外の場合やピースが配置されている場合、指定した形状がはめ込めない
+                if (currentIndex >= puzzleBoardList.Count ||
+                    currentIndex % lineSquareNum < startIndex % lineSquareNum ||  
+                    puzzleBoardList[currentIndex].setPieceObj != null)                 
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -249,7 +305,7 @@ namespace Puzzle
             for (int i = 0; i < boardMax; i += lineSquareNum)
             {
                 List<PuzzleBoard> horizontalBoardLine = new List<PuzzleBoard>();
-                
+
                 // 一列毎にマスを取得
                 for (int j = i; j < Math.Min(i + lineSquareNum, boardMax); j++)
                 {
@@ -272,7 +328,6 @@ namespace Puzzle
                 // 一列毎にマスを取得
                 for (int j = i; j < boardMax; j += lineSquareNum)
                 {
-                    Debug.Log(j);
                     verticalBoardLine.Add(puzzleBoardList[j]);
                 }
 
