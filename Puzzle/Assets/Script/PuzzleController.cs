@@ -8,8 +8,8 @@ namespace Puzzle
     public class PuzzleController : MonoBehaviour
     {
         #region PrivateField
-        /// <summary>列を消去時の値</summary>
-        private int destroyLineNum;
+        /// <summary>スコアの値</summary>
+        private int scoreNum;
         /// <summary>一列のマスの数</summary>
         private const int lineSquareNum = 10;
         /// <summary>盤面のマスの最大値</summary>
@@ -38,6 +38,8 @@ namespace Puzzle
         [SerializeField] PuzzlePiece puzzlePiece;
         /// <summary>生成する配置枠のプレハブ</summary>
         [SerializeField] PuzzleBoard puzzleBoard;
+        /// <summary>スコア</summary>
+        [SerializeField] Score score;
         #endregion
 
         #region PublicMethod
@@ -49,6 +51,8 @@ namespace Puzzle
             CreatePuzzle();
 
             CreateBoard();
+
+            score.Init();
         }
         #endregion
 
@@ -190,9 +194,14 @@ namespace Puzzle
                     piece.transform.localPosition = board.transform.localPosition;
 
                     board.setPieceObj = piece.gameObject;
+
+                    scoreNum++;
                 }
 
                 ChackStockPiece(puzzlePiece);
+
+                // 表示しているスコアを更新
+                score.UpdataScore(scoreNum);
 
                 return;
             }
@@ -231,6 +240,9 @@ namespace Puzzle
         private void CheckBoardLine()
         {
             List<PuzzleBoard> destroyPuzzleLineList = new List<PuzzleBoard>();
+
+            // 消したライン数
+            var destroyLineNum = 0;
 
             // 横の列の判定
             for (int i = 0; i < boardMax; i += lineSquareNum)
@@ -274,6 +286,8 @@ namespace Puzzle
             if (destroyPuzzleLineList.Count != 0)
             {
                 DestroyLine(destroyPuzzleLineList);
+
+                AddScore(destroyLineNum);
             }
         }
 
@@ -295,6 +309,21 @@ namespace Puzzle
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// スコアを加算する処理
+        /// </summary>
+        /// <param name="destroyLineNum">消去したライン数</param>
+        private void AddScore(int destroyLineNum)
+        {
+            for (int i = 0; i < destroyLineNum; i++)
+            {
+                var getScoreNum = 10 + i * 5;
+
+                // スコアに加算
+                scoreNum += getScoreNum;
+            }
         }
 
         /// <summary>

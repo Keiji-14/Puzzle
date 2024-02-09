@@ -15,7 +15,6 @@ namespace Puzzle
         #endregion
 
         #region PrivateField
-        private bool isSetted;
         /// <summary>元の座標</summary>
         private Vector2 prevPos;
         /// <summary>ドラッグ前のサイズ</summary>
@@ -56,6 +55,8 @@ namespace Puzzle
             transform.localScale = new Vector3(transform.localScale.x / 2, transform.localScale.y / 2, transform.localScale.z / 2);
             // ドラッグ前のサイズとして保持
             unDraggedSize = transform.localScale;
+
+            // Todo: 配置できる場所があるか確認
         }
 
         /// <summary>
