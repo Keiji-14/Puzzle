@@ -35,7 +35,7 @@ namespace Puzzle
         [SerializeField] List<Vector3> createPosList = new List<Vector3>();
         [Header("Component")]
         /// <summary>生成するパズルピースのプレハブ</summary>
-        [SerializeField] PuzzlePiece puzzlePiece;
+        [SerializeField] List<PuzzlePiece> puzzlePieceList;
         /// <summary>生成する配置枠のプレハブ</summary>
         [SerializeField] PuzzleBoard puzzleBoard;
         /// <summary>スコア</summary>
@@ -65,7 +65,8 @@ namespace Puzzle
             // パズルピースを生成する処理
             foreach (var createPos in createPosList)
             {
-                var puzzlePieceObj = Instantiate(puzzlePiece, puzzlePieceParent).GetComponent<PuzzlePiece>();
+                var randIndex = UnityEngine.Random.Range(0, puzzlePieceList.Count);
+                var puzzlePieceObj = Instantiate(puzzlePieceList[randIndex], puzzlePieceParent).GetComponent<PuzzlePiece>();
 
                 // 指定した座標に移動
                 puzzlePieceObj.transform.localPosition = createPos;
