@@ -232,6 +232,8 @@ namespace Puzzle
 
             CheckBoardLine();
 
+            CheckPuzzleList();
+
             CheckGameOver();
         }
 
@@ -243,24 +245,23 @@ namespace Puzzle
             if (IsGameOver())
             {
                 // Todo: ゲームオーバーの表示処理を追加する
-            }
-            else
-            {
-                CheckPuzzleList();
+                Debug.Log("gameOver");
             }
         }
 
         /// <summary>
         /// ゲームオーバー判定
         /// </summary>
-        /// <returns>ゲームオーバーかどうかの判定結果</returns>
         private bool IsGameOver()
         {
-            for (int i = 0; i < puzzleBoardList.Count; i++)
+            foreach (var puzzlePiece in puzzlePieceList)
             {
-                if (IsCanSetPuzzlePiece(i))
+                for (int i = 0; i < puzzleBoardList.Count; i++)
                 {
-                    return false;
+                    if (IsCanSetPuzzlePiece(i,  puzzlePiece.pieceSquareList))
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -270,19 +271,18 @@ namespace Puzzle
         /// <summary>
         /// 特定のピースのはめ込む場所があるかの判定
         /// </summary>
-        private bool IsCanSetPuzzlePiece(int startIndex)
+        /// <param name="startIndex">形状の判定を開始する位置のインデックス</param>
+        /// <param name="pieceSquareList">ピースの形状</param>
+        private bool IsCanSetPuzzlePiece(int startIndex, List<int> pieceSquareList)
         {
-            // ピースの形状
-            int[] puzzlePiecePattern = { 0, 1 };
-
-            foreach (int offset in puzzlePiecePattern)
+            foreach (int offset in pieceSquareList)
             {
                 int currentIndex = startIndex + offset;
 
                 // 範囲外の場合やピースが配置されている場合、指定した形状がはめ込めない
                 if (currentIndex >= puzzleBoardList.Count ||
-                    currentIndex % lineSquareNum < startIndex % lineSquareNum ||  
-                    puzzleBoardList[currentIndex].setPieceObj != null)                 
+                    currentIndex % lineSquareNum < startIndex % lineSquareNum ||
+                    puzzleBoardList[currentIndex].setPieceObj != null)
                 {
                     return false;
                 }
