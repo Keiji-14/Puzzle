@@ -12,7 +12,7 @@ namespace Title
     public class TitleController : MonoBehaviour
     {
         #region PrivateField
-        /// <summary>元の座標</summary>
+        /// <summary>ゲーム開始ボタンを押した時の処理</summary>
         private IObservable<Unit> OnClickGameStartButtonObserver => startBtn.OnClickAsObservable();
         #endregion
 
