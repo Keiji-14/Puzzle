@@ -3,6 +3,9 @@ using UnityEngine.EventSystems;
 
 namespace Scene
 {
+    /// <summary>
+    /// 画面のベースクラス
+    /// </summary>
     public class SceneBase : MonoBehaviour
     {
         #region UnityEvent
