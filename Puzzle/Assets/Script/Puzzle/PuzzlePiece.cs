@@ -10,6 +10,8 @@ namespace Puzzle
         #region PublicField
         /// <summary>ピースをドロップした時の処理</summary>
         public Subject<PuzzlePiece> DropPieceSubject = new Subject<PuzzlePiece>();
+        /// <summary>ピースの形状</summary>
+        public List<int> pieceSquareList = new List<int>();
         /// <summary>ピースの一マス</summary>
         public List<Piece> pieceList = new List<Piece>();
         #endregion
@@ -47,6 +49,12 @@ namespace Puzzle
         /// </summary>
         public void Init()
         {
+            // ピースの形状を保持
+            foreach (var piece in pieceList)
+            {
+                pieceSquareList.Add(piece.squareID);
+            }
+
             // ドラッグ前の位置とサイズを保持する
             prevPos = transform.localPosition;
             defaultSize = transform.localScale;

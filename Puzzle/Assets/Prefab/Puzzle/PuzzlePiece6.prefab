@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7830948860224012724}
   - component: {fileID: 1478072631626756426}
   m_Layer: 5
-  m_Name: Puzzle (1)
+  m_Name: Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,6 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  squareID: 10
   isSetted: 0
 --- !u!1 &3712399873816850335
 GameObject:
@@ -151,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3a3df28ed01834c86618003c280b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pieceSquareList: 
   pieceList:
   - {fileID: 1932506765215742168}
   - {fileID: 1478072631626756426}
@@ -168,7 +170,7 @@ GameObject:
   - component: {fileID: 9194360260841890703}
   - component: {fileID: 7827894045881733534}
   m_Layer: 5
-  m_Name: Puzzle (2)
+  m_Name: Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -244,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  squareID: 20
   isSetted: 0
 --- !u!1 &5792915437911633868
 GameObject:
@@ -258,7 +261,7 @@ GameObject:
   - component: {fileID: 194616658990066723}
   - component: {fileID: 1932506765215742168}
   m_Layer: 5
-  m_Name: Puzzle
+  m_Name: Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -334,4 +337,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  squareID: 0
   isSetted: 0

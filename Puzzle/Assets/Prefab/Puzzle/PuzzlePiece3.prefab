@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5856449818694319653}
   - component: {fileID: 3661495701370505377}
   m_Layer: 5
-  m_Name: Puzzle (3)
+  m_Name: Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5727051472626492442}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -89,6 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  squareID: 10
   isSetted: 0
 --- !u!1 &2490136595796533556
 GameObject:
@@ -103,7 +104,7 @@ GameObject:
   - component: {fileID: 2931711666749671275}
   - component: {fileID: 3720545994193952975}
   m_Layer: 5
-  m_Name: Puzzle (2)
+  m_Name: Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +123,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5727051472626492442}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -179,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  squareID: 11
   isSetted: 0
 --- !u!1 &3214192559854199882
 GameObject:
@@ -193,7 +195,7 @@ GameObject:
   - component: {fileID: 9100895432920311717}
   - component: {fileID: 7362873389879423838}
   m_Layer: 5
-  m_Name: Puzzle
+  m_Name: Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -212,7 +214,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5727051472626492442}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -269,6 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  squareID: 1
   isSetted: 0
 --- !u!1 &5727051472626492441
 GameObject:
@@ -300,10 +303,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5240724860240621221}
   - {fileID: 1714362334693555652}
-  - {fileID: 4369631551737960002}
+  - {fileID: 5240724860240621221}
   - {fileID: 1955418536784508236}
+  - {fileID: 4369631551737960002}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -332,11 +335,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3a3df28ed01834c86618003c280b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pieceSquareList: 
   pieceList:
-  - {fileID: 7362873389879423838}
   - {fileID: 7529070551837424332}
-  - {fileID: 3720545994193952975}
+  - {fileID: 7362873389879423838}
   - {fileID: 3661495701370505377}
+  - {fileID: 3720545994193952975}
 --- !u!1 &7503445253923327051
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,7 +354,7 @@ GameObject:
   - component: {fileID: 1176165743204387378}
   - component: {fileID: 7529070551837424332}
   m_Layer: 5
-  m_Name: Puzzle (1)
+  m_Name: Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -369,7 +373,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5727051472626492442}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -426,4 +430,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  squareID: 0
   isSetted: 0
