@@ -8,6 +8,11 @@ namespace Puzzle
     public class PuzzleController : MonoBehaviour
     {
         #region PrivateField
+        /// <summary>ゲームオーバー時の処理</summary>
+        public Subject<Unit> GameOverSubject = new Subject<Unit>();
+        #endregion
+
+        #region PrivateField
         /// <summary>スコアの値</summary>
         private int scoreNum;
         /// <summary>一列のマスの数</summary>
@@ -244,8 +249,8 @@ namespace Puzzle
         {
             if (IsGameOver())
             {
-                // Todo: ゲームオーバーの表示処理を追加する
-                Debug.Log("gameOver");
+                Debug.Log("GameOver");
+                //GameOverSubject.OnNext(Unit.Default);
             }
         }
 
@@ -254,7 +259,7 @@ namespace Puzzle
         /// </summary>
         private bool IsGameOver()
         {
-            foreach (var puzzlePiece in puzzlePieceList)
+            foreach (var puzzlePiece in createPuzzlePieceList)
             {
                 for (int i = 0; i < puzzleBoardList.Count; i++)
                 {

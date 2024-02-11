@@ -1,4 +1,5 @@
 ﻿using Scene;
+using UniRx;
 using UnityEngine;
 
 namespace Puzzle
@@ -14,7 +15,13 @@ namespace Puzzle
         {
             base.Start();
 
-            puzzleController.Init();    
+            puzzleController.Init();
+
+            puzzleController.GameOverSubject.Subscribe(_ =>
+            {
+                SceneLoader.Instance().Load(SceneLoader.SceneName.GameOver, true);
+            }).AddTo(this);
+
         }
         #endregion
     }
