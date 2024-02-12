@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Audio;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 namespace Puzzle
@@ -27,6 +29,8 @@ namespace Puzzle
         private List<PuzzlePiece> createPuzzlePieceList = new List<PuzzlePiece>();
         /// <summary>盤面のリスト</summary>
         private List<PuzzleBoard> puzzleBoardList = new List<PuzzleBoard>();
+        /// <summary>ポーズボタンを押した時の処理</summary>
+        private IObservable<Unit> OnClickPauseButtonObserver => pauseBtn.OnClickAsObservable();
         #endregion
 
         #region SerializeField
@@ -40,6 +44,8 @@ namespace Puzzle
         [SerializeField] Transform stockPos;
         /// <summary>ラインが消えた時に表示する</summary>
         [SerializeField] TextMeshProUGUI comboText;
+        /// <summary>ポーズ画面のボタン</summary>
+        [SerializeField] Button pauseBtn;
         /// <summary>パズルの生成座標</summary>
         [SerializeField] List<Vector3> createPosList = new List<Vector3>();
         [Header("Component")]
@@ -49,6 +55,8 @@ namespace Puzzle
         [SerializeField] PuzzleBoard puzzleBoard;
         /// <summary>スコア</summary>
         [SerializeField] Score score;
+        /// <summary>ポーズ画面</summary>
+        [SerializeField] Pause pause;
         #endregion
 
         #region PublicMethod
@@ -62,6 +70,8 @@ namespace Puzzle
             CreateBoard();
 
             score.Init();
+
+            PauseInit();
         }
         #endregion
 
@@ -103,6 +113,21 @@ namespace Puzzle
 
                 puzzleBoardList.Add(puzzleBoardObj);
             }
+        }
+
+        /// <summary>
+        /// ポーズ関係の初期化
+        /// </summary>
+        private void PauseInit()
+        {
+            pause.Init();
+
+            pause.gameObject.SetActive(false);
+
+            OnClickPauseButtonObserver.Subscribe(_ =>
+            {
+                SwitchPauseMenu();
+            }).AddTo(this);
         }
 
         /// <summary>
@@ -238,6 +263,8 @@ namespace Puzzle
                 // ストックの場合はストックを空にする
                 stockPuzzlePiece = null;
             }
+
+            SE.instance.Play(SE.SEName.DropSE);
 
             puzzlePiece.DestroyPuzzlePiece();
 
@@ -382,6 +409,8 @@ namespace Puzzle
         /// </summary>
         private void DestroyLine(List<PuzzleBoard> puzzleBoardList)
         {
+            SE.instance.Play(SE.SEName.DestroySE);
+
             foreach (var puzzleBoard in puzzleBoardList)
             {
                 puzzleBoard.DestroyParticle();
@@ -444,6 +473,14 @@ namespace Puzzle
             {
                 PlayerPrefs.SetInt("HighScore", scoreNum);
             }
+        }
+
+        /// <summary>
+        /// ポーズ画面の表示切替の処理
+        /// </summary>
+        private void SwitchPauseMenu()
+        {
+            pause.gameObject.SetActive(!pause.gameObject.activeSelf ? true : false);
         }
         #endregion
     }

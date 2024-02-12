@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Audio;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -29,6 +30,7 @@ namespace Puzzle
         public void OnPointerDown(PointerEventData eventData)
         {
             transform.localScale = defaultSize;
+            SE.instance.Play(SE.SEName.DragSE);
         }
 
         public void OnPointerUp(PointerEventData eventData)

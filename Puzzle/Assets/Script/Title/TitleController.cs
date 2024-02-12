@@ -1,4 +1,5 @@
 ﻿using Scene;
+using Audio;
 using System;
 using UniRx;
 using UnityEngine;
@@ -30,6 +31,7 @@ namespace Title
             // ゲーム画面に遷移する処理
             OnClickGameStartButtonObserver.Subscribe(_ =>
             {
+                SE.instance.Play(SE.SEName.ButtonSE);
                 SceneLoader.Instance().Load(SceneLoader.SceneName.Puzzle);
             }).AddTo(this);
         }
