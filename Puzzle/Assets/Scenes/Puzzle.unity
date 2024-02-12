@@ -153,7 +153,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fdb29746e1a03eb4b8f1b53d9dcb43e3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -915,8 +915,8 @@ MonoBehaviour:
   seClipList:
   - {fileID: 8300000, guid: c85bf790aadea9848b507e1767575db8, type: 3}
   - {fileID: 8300000, guid: 9898d9bc82df69f4b8441707a6d81676, type: 3}
-  - {fileID: 8300000, guid: 41d8b76705864414bbed27de86f1afbc, type: 3}
-  - {fileID: 8300000, guid: 654a8c190768e6740bd33a95f97eb668, type: 3}
+  - {fileID: 8300000, guid: a2c7e86e1fb3b0647b377537b0901865, type: 3}
+  - {fileID: 8300000, guid: 75cdd5130e9efbe48bc8490a32590d8a, type: 3}
 --- !u!4 &393226850
 Transform:
   m_ObjectHideFlags: 0
@@ -2425,15 +2425,24 @@ MonoBehaviour:
   - {x: -140, y: -640, z: 0}
   - {x: 100, y: -640, z: 0}
   puzzlePieceList:
-  - {fileID: 2105334649493647947, guid: bfae908a5eb2eb54c921935a46f5aac6, type: 3}
-  - {fileID: 541096575185841945, guid: 5b93db5098b6adb4aa309a55b6555306, type: 3}
-  - {fileID: 5727051472626492437, guid: 8a87df151c6c08240b6206570ead5f46, type: 3}
-  - {fileID: 740731834406701430, guid: 12684b152954ce445aac6453a3e360ac, type: 3}
-  - {fileID: 3121818445921932684, guid: 74521faeb1e3b184f9b16ed19400b237, type: 3}
-  - {fileID: 3712399873816850323, guid: 3763e50a28b0b2740b00f3d55d29587d, type: 3}
-  - {fileID: 3878248510867940166, guid: 85b970e9ca5ce884a8a1d3080d490429, type: 3}
-  - {fileID: 909800131740948221, guid: 256c3d17ed16d56438716bc89ae15ea8, type: 3}
-  - {fileID: 8353588943692562011, guid: 317de38dc1f0360498170122d28d1f8b, type: 3}
+  - {fileID: 9199969205145882480, guid: bfae908a5eb2eb54c921935a46f5aac6, type: 3}
+  - {fileID: 6842987263888037897, guid: 5b93db5098b6adb4aa309a55b6555306, type: 3}
+  - {fileID: 5252409505852319565, guid: 8a87df151c6c08240b6206570ead5f46, type: 3}
+  - {fileID: 2719606720124857730, guid: 12684b152954ce445aac6453a3e360ac, type: 3}
+  - {fileID: 4693453364266003943, guid: 74521faeb1e3b184f9b16ed19400b237, type: 3}
+  - {fileID: 5371660413967576164, guid: 3763e50a28b0b2740b00f3d55d29587d, type: 3}
+  - {fileID: 8736181403114908450, guid: 85b970e9ca5ce884a8a1d3080d490429, type: 3}
+  - {fileID: 3724347322464338447, guid: 256c3d17ed16d56438716bc89ae15ea8, type: 3}
+  - {fileID: 2073087875905172934, guid: 317de38dc1f0360498170122d28d1f8b, type: 3}
+  - {fileID: 3510415796990399555, guid: cc272e14725abb14db597b06217294cf, type: 3}
+  - {fileID: 7626371117364263860, guid: 53a277be908df5e49bbf8ffd6924a8a9, type: 3}
+  - {fileID: 1715052417838758944, guid: a658a7062760dac46b8e38c215efbd02, type: 3}
+  - {fileID: 125300278036175011, guid: 39d2fd0b8bc57ab43831510829e06bf7, type: 3}
+  - {fileID: 8269100889901892302, guid: 56987818e2a70894986018d04a5f99bf, type: 3}
+  - {fileID: 3967691087909519359, guid: c7030d6f2384fa147a3484e7daf8106b, type: 3}
+  - {fileID: 390814148534903404, guid: e80fb1aa46fbdd94fb82eb392e2263b2, type: 3}
+  - {fileID: 5265130581036261295, guid: 05e2f3ca6402ddc4c90f1e2be14d9983, type: 3}
+  - {fileID: 6647432075884074943, guid: 079fc3a487fa24c4e92031501fe5b8a1, type: 3}
   puzzleBoard: {fileID: 6023851276355378474, guid: d74238766a44b9b42b16f60159e56722, type: 3}
   score: {fileID: 1268925617}
   pause: {fileID: 1456442306}

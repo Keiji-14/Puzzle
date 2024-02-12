@@ -9,6 +9,9 @@ using TMPro;
 
 namespace Puzzle
 {
+    /// <summary>
+    /// パズル画面の処理
+    /// </summary>
     public class PuzzleController : MonoBehaviour
     {
         #region PublicField
@@ -269,7 +272,7 @@ namespace Puzzle
                 stockPuzzlePiece = null;
             }
 
-            SE.instance.Play(SE.SEName.DropSE);
+            SE.instance.Play(SE.SEName.SetSE);
 
             puzzlePiece.DestroyPuzzlePiece();
 
@@ -351,6 +354,7 @@ namespace Puzzle
                 }
             }
 
+            // 列が出来ているかどうか
             if (destroyPuzzleLineList.Count != 0)
             {
                 DestroyLine(destroyPuzzleLineList);
@@ -396,6 +400,10 @@ namespace Puzzle
             }
         }
 
+        /// <summary>
+        /// 列を消したときの演出
+        /// </summary>
+        /// <param name="destroyLineNum">消去したライン数</param>
         private IEnumerator ViewComboText(int destroyLineNum)
         {
             var waitTime = 1.0f;
@@ -412,13 +420,16 @@ namespace Puzzle
         /// <summary>
         /// 完成した列を削除する
         /// </summary>
+        /// <param name="puzzleBoardList">列が出来た盤面</param>
         private void DestroyLine(List<PuzzleBoard> puzzleBoardList)
         {
             SE.instance.Play(SE.SEName.DestroySE);
 
             foreach (var puzzleBoard in puzzleBoardList)
             {
-                puzzleBoard.DestroyParticle();
+                Destroy(puzzleBoard.setPieceObj);
+
+                puzzleBoard.setPieceObj = null;
             }
         }
 
@@ -485,6 +496,7 @@ namespace Puzzle
         /// </summary>
         private void SwitchPauseMenu()
         {
+            SE.instance.Play(SE.SEName.ButtonSE);
             pause.gameObject.SetActive(!pause.gameObject.activeSelf ? true : false);
         }
         #endregion

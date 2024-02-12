@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 
 namespace Puzzle
 {
+    /// <summary>
+    /// パズルピースの操作管理の処理
+    /// </summary>
     public class PuzzlePiece : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         #region PublicField
@@ -18,6 +21,8 @@ namespace Puzzle
         #endregion
 
         #region PrivateField
+        /// <summary>サイズを小さくする為の値</summary>
+        private const float setUnDraggedSize = 2.5f;
         /// <summary>元の座標</summary>
         private Vector2 prevPos;
         /// <summary>ドラッグ前のサイズ</summary>
@@ -62,7 +67,8 @@ namespace Puzzle
             defaultSize = transform.localScale;
 
             // サイズを小さくする
-            transform.localScale = new Vector3(transform.localScale.x / 2, transform.localScale.y / 2, transform.localScale.z / 2);
+            transform.localScale = 
+                new Vector3(transform.localScale.x / setUnDraggedSize, transform.localScale.y / setUnDraggedSize, transform.localScale.z / setUnDraggedSize);
             // ドラッグ前のサイズとして保持
             unDraggedSize = transform.localScale;
         }
@@ -78,6 +84,7 @@ namespace Puzzle
         /// <summary>
         /// パズルをストックする処理
         /// </summary>
+        /// <param name="targetPos">パズルピースをストックする場所</param>
         public void SetStock(Transform targetPos)
         {
             transform.localPosition = targetPos.localPosition;

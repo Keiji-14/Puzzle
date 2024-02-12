@@ -2,28 +2,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Audio
-{
+{    /// <summary>
+     /// 効果音の再生処理
+     /// </summary>
     public class SE : MonoBehaviour
     {
-        #region PrivateField
+        #region PublicField
         public static SE instance = null;
         #endregion
 
         #region SerializeField
         [SerializeField] AudioSource audioSource;
-        /// <summary>消滅時のエフェクト</summary>
+        /// <summary>効果音リスト</summary>
         [SerializeField] List<AudioClip> seClipList;
         #endregion
 
-        #region PublicMethod
-        public enum SEName
-        {
-            ButtonSE,
-            DragSE,
-            DropSE,
-            DestroySE,
-        }
-
+        #region UnityEvent
         private void Awake()
         {
             if (instance == null)
@@ -35,6 +29,16 @@ namespace Audio
             {
                 Destroy(gameObject);
             }
+        }
+        #endregion
+
+        #region PublicMethod
+        public enum SEName
+        {
+            ButtonSE,
+            DragSE,
+            SetSE,
+            DestroySE,
         }
 
         /// <summary>

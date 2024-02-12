@@ -7,8 +7,11 @@ using UnityEngine.UI;
 
 namespace Puzzle
 {
-public class Pause : MonoBehaviour
-{
+    /// <summary>
+    /// ポーズ画面の処理
+    /// </summary>
+    public class Pause : MonoBehaviour
+    {
         #region PublicField
         /// <summary>ポーズ画面を閉じるボタンを押した時の処理</summary>
         public IObservable<Unit> OnClickCloseMenuButtonObserver => closeMenuBtn.OnClickAsObservable();
