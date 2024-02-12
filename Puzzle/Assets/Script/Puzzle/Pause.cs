@@ -1,4 +1,4 @@
-using Scene;
+ï»¿using Scene;
 using Audio;
 using System;
 using UniRx;
@@ -9,34 +9,41 @@ namespace Puzzle
 {
 public class Pause : MonoBehaviour
 {
+        #region PublicField
+        /// <summary>ãƒãƒ¼ã‚ºç”»é¢ã‚’é–‰ã˜ã‚‹ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸæ™‚ã®å‡¦ç†</summary>
+        public IObservable<Unit> OnClickCloseMenuButtonObserver => closeMenuBtn.OnClickAsObservable();
+        #endregion
+
         #region PrivateField
-        /// <summary>ƒŠƒZƒbƒgƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—</summary>
+        /// <summary>ãƒªã‚»ãƒƒãƒˆãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸæ™‚ã®å‡¦ç†</summary>
         private IObservable<Unit> OnClickResetButtonObserver => resetBtn.OnClickAsObservable();
-        /// <summary>ƒ^ƒCƒgƒ‹‰æ–Ê‚Ì–ß‚éƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—</summary>
+        /// <summary>ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã®æˆ»ã‚‹ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸæ™‚ã®å‡¦ç†</summary>
         private IObservable<Unit> OnClickTitleBackButtonObserver => titleBackBtn.OnClickAsObservable();
         #endregion
 
         #region SerializeField
-        /// <summary>ƒŠƒZƒbƒgƒ{ƒ^ƒ“</summary>
+        /// <summary>ãƒªã‚»ãƒƒãƒˆãƒœã‚¿ãƒ³</summary>
         [SerializeField] Button resetBtn;
-        /// <summary>ƒ^ƒCƒgƒ‹‰æ–Ê‚Ì–ß‚éƒ{ƒ^ƒ“</summary>
+        /// <summary>ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã®æˆ»ã‚‹ãƒœã‚¿ãƒ³</summary>
         [SerializeField] Button titleBackBtn;
+        /// <summary>ãƒãƒ¼ã‚ºç”»é¢ã‚’é–‰ã˜ã‚‹ãƒœã‚¿ãƒ³</summary>
+        [SerializeField] Button closeMenuBtn;
         #endregion
 
         #region PublicMethod
         /// <summary>
-        /// ‰Šú‰»
+        /// åˆæœŸåŒ–
         /// </summary>
         public void Init()
         {
-            // ƒQ[ƒ€‰æ–Ê‚ğƒŠƒZƒbƒg‚·‚éˆ—
+            // ã‚²ãƒ¼ãƒ ç”»é¢ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹å‡¦ç†
             OnClickResetButtonObserver.Subscribe(_ =>
             {
                 SE.instance.Play(SE.SEName.ButtonSE);
                 SceneLoader.Instance().Load(SceneLoader.SceneName.Puzzle);
             }).AddTo(this);
 
-            // ƒ^ƒCƒgƒ‹‰æ–Ê‚É‘JˆÚ‚·‚éˆ—
+            // ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã«é·ç§»ã™ã‚‹å‡¦ç†
             OnClickTitleBackButtonObserver.Subscribe(_ =>
             {
                 SE.instance.Play(SE.SEName.ButtonSE);

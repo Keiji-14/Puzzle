@@ -128,6 +128,11 @@ namespace Puzzle
             {
                 SwitchPauseMenu();
             }).AddTo(this);
+
+            pause.OnClickCloseMenuButtonObserver.Subscribe(_ =>
+            {
+                SwitchPauseMenu();
+            }).AddTo(this);
         }
 
         /// <summary>
