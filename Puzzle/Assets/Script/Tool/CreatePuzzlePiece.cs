@@ -13,6 +13,7 @@ public class CreatePuzzlePiece : EditorWindow
         Two,
         Three,
         Four,
+        Five,
     }
 
     #region PrivateField
