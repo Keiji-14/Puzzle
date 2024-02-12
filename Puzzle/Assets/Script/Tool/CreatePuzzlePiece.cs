@@ -61,9 +61,10 @@ public class CreatePuzzlePiece : EditorWindow
 
         GUILayout.Space(10);
 
-        // スプライト選択フィールド
+        // スプライトの選択
         selectedSprite = EditorGUILayout.ObjectField("Sprite", selectedSprite, typeof(Sprite), false) as Sprite;
 
+        // チェックボックスの表示を実行するボタン
         if (GUILayout.Button("Set Square Board"))
         {
             SetSquareBoard();
@@ -91,9 +92,9 @@ public class CreatePuzzlePiece : EditorWindow
             }
         }
 
-
         GUILayout.Space(10);
 
+        // パズルピースの生成を実行するボタン
         if (GUILayout.Button("Create Puzzle Piece"))
         {
             CreatePuzzlePiecePrefabObject();
@@ -111,7 +112,8 @@ public class CreatePuzzlePiece : EditorWindow
 
             for (int y = 0; y < (int)vertical+ 1; y++)
             {
-                row.Add(false); // チェックボックスの初期値はfalse
+                // チェックボックスの初期値はfalse
+                row.Add(false);
             }
 
             checkBoxList.Add(row);
@@ -123,17 +125,27 @@ public class CreatePuzzlePiece : EditorWindow
     /// </summary>
     private void CreatePuzzlePiecePrefabObject()
     {
+        // スプライトがnullの場合は生成出来ない
+        if (selectedSprite == null)
+        {
+            Debug.LogError("Sprite is null.");
+            return;
+        }
+
+        // パズルピースの操作部分を生成する
         var puzzlePiece = new GameObject("PuzzlePiece", typeof(RectTransform), typeof(PuzzlePiece)).GetComponent<PuzzlePiece>();
 
         int rowCount = checkBoxList.Count;
         int colCount = rowCount > 0 ? checkBoxList[0].Count : 0;
 
+        // チェックボックスの状態を取得
         for (int x = 0; x < rowCount; x++) 
         {
             for (int y = 0; y < colCount; y++)
             {
                 if (checkBoxList[x][y])
                 {
+                    // ピース部分を生成する
                     var piece = new GameObject("Piece", typeof(Image), typeof(Piece)).GetComponent<Piece>();
                     piece.transform.SetParent(puzzlePiece.transform);
 
@@ -160,6 +172,9 @@ public class CreatePuzzlePiece : EditorWindow
     /// <summary>
     /// ピースの状態を設定する処理
     /// </summary>
+    /// <param name="piece">パズルピースの1マス</param>
+    /// <param name="x">X座標</param>
+    /// <param name="y">Y座標</param>
     private void SetPiece(Piece piece, int x, int y)
     {
         // マスの番号を設定
@@ -176,6 +191,7 @@ public class CreatePuzzlePiece : EditorWindow
         var offsetX = (checkBoxList.Count - 1) * (pieceSize + spacing) / 2;
         var offsetY = (checkBoxList[x].Count - 1) * (pieceSize + spacing) / 2;
 
+        // ピースの座標を設定する
         var pieceX = y * (pieceSize + spacing) - offsetY;
         var pieceY = -x * (pieceSize + spacing) + offsetX;
         
