@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 
+/// <summary>
+/// パズルピースのプレハブを生成するエディター拡張
+/// </summary>
 public class CreatePuzzlePiece : EditorWindow
 {
     #region PrivateField
