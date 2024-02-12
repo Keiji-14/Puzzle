@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Puzzle
 {
+    /// <summary>
+    /// パズル画面の管理
+    /// </summary>
     public class PuzzleScene : SceneBase
     {
         #region SerializeField 

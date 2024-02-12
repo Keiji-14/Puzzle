@@ -2,6 +2,9 @@
 
 namespace Puzzle
 {
+    /// <summary>
+    /// パズルピース
+    /// </summary>
     public class Piece : MonoBehaviour
     {
         #region PublicField

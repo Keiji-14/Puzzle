@@ -7,10 +7,15 @@ namespace Audio
     /// </summary>
     public class BGM : MonoBehaviour
     {
+        #region PublicField
         public static BGM instance = null;
+        #endregion
 
+        #region SerializeField
         [SerializeField] AudioSource bgm;
+        #endregion
 
+        #region UnityEvent
         private void Awake()
         {
             if (instance == null)
@@ -28,5 +33,6 @@ namespace Audio
         {
             bgm.Play();
         }
+        #endregion
     }
 }

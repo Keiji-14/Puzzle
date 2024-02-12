@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 
 namespace Puzzle
 {
+    /// <summary>
+    /// パズルピースの操作管理の処理
+    /// </summary>
     public class PuzzlePiece : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         #region PublicField

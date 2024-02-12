@@ -3,6 +3,9 @@ using TMPro;
 
 namespace Puzzle
 {
+    /// <summary>
+    /// スコアの表示処理
+    /// </summary>
     public class Score : MonoBehaviour
     {
         #region SerializeField 

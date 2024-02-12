@@ -7,15 +7,6 @@ using UnityEditor;
 
 public class CreatePuzzlePiece : EditorWindow
 {
-    private enum Square
-    {
-        One,
-        Two,
-        Three,
-        Four,
-        Five,
-    }
-
     #region PrivateField
     /// <summary>配置したパズルピース</summary>
     private string prefabFolderPath = "Assets/Resources/Prefab/Puzzle"; // プレハブのあるフォルダのパス
@@ -26,6 +17,17 @@ public class CreatePuzzlePiece : EditorWindow
     private Sprite selectedSprite;
 
     private List<List<bool>> checkBoxList;
+    #endregion
+
+    #region PublicMethod
+    private enum Square
+    {
+        One,
+        Two,
+        Three,
+        Four,
+        Five,
+    }
     #endregion
 
     #region PrivateMethod
