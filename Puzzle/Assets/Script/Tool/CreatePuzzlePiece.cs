@@ -175,7 +175,7 @@ public class CreatePuzzlePiece : EditorWindow
         var offsetX = (checkBoxList.Count - 1) * (pieceSize + spacing) / 2;
         var offsetY = (checkBoxList[x].Count - 1) * (pieceSize + spacing) / 2;
 
-        var pieceX = -y * (pieceSize + spacing) + offsetY;
+        var pieceX = y * (pieceSize + spacing) - offsetY;
         var pieceY = -x * (pieceSize + spacing) + offsetX;
         
         piece.transform.localPosition = new Vector3(pieceX, pieceY, 0);
