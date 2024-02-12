@@ -19,7 +19,7 @@ namespace Title
 
         #region SerializeField
         /// <summary>ゲーム開始ボタン</summary>
-        [SerializeField] Button startBtn;
+        [SerializeField] private Button startBtn;
         #endregion
 
         #region PublicMethod

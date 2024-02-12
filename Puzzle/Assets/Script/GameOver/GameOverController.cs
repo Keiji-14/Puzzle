@@ -21,9 +21,9 @@ namespace GameOver
 
         #region SerializeField
         /// <summary>リトライボタン</summary>
-        [SerializeField] Button retryBtn;
+        [SerializeField] private Button retryBtn;
         /// <summary>タイトル画面の戻るボタン</summary>
-        [SerializeField] Button titleBackBtn;
+        [SerializeField] private Button titleBackBtn;
         #endregion
 
         #region PublicMethod

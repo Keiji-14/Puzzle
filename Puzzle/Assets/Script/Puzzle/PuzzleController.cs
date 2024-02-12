@@ -38,28 +38,28 @@ namespace Puzzle
 
         #region SerializeField
         /// <summary>パズルの生成場所</summary>
-        [SerializeField] Transform puzzlePieceParent;
+        [SerializeField] private Transform puzzlePieceParent;
         /// <summary>盤面の生成場所</summary>
-        [SerializeField] Transform puzzleBoardParent;
+        [SerializeField] private Transform puzzleBoardParent;
         /// <summary>配置したパズルの場所</summary>
-        [SerializeField] Transform setPuzzlePieceParent;
+        [SerializeField] private Transform setPuzzlePieceParent;
         /// <summary>ストックする場所</summary>
-        [SerializeField] Transform stockPos;
+        [SerializeField] private Transform stockPos;
         /// <summary>ラインが消えた時に表示する</summary>
-        [SerializeField] TextMeshProUGUI comboText;
+        [SerializeField] private TextMeshProUGUI comboText;
         /// <summary>ポーズ画面のボタン</summary>
-        [SerializeField] Button pauseBtn;
+        [SerializeField] private Button pauseBtn;
         /// <summary>パズルの生成座標</summary>
-        [SerializeField] List<Vector3> createPosList = new List<Vector3>();
+        [SerializeField] private List<Vector3> createPosList = new List<Vector3>();
         [Header("Component")]
         /// <summary>生成するパズルピースのプレハブ</summary>
-        [SerializeField] List<PuzzlePiece> puzzlePieceList;
+        [SerializeField] private List<PuzzlePiece> puzzlePieceList;
         /// <summary>生成する配置枠のプレハブ</summary>
-        [SerializeField] PuzzleBoard puzzleBoard;
+        [SerializeField] private PuzzleBoard puzzleBoard;
         /// <summary>スコア</summary>
-        [SerializeField] Score score;
+        [SerializeField] private Score score;
         /// <summary>ポーズ画面</summary>
-        [SerializeField] Pause pause;
+        [SerializeField] private Pause pause;
         #endregion
 
         #region PublicMethod
@@ -284,29 +284,6 @@ namespace Puzzle
         }
 
         /// <summary>
-        /// 特定のピースのはめ込む場所があるかの判定
-        /// </summary>
-        /// <param name="startIndex">形状の判定を開始する位置のインデックス</param>
-        /// <param name="pieceSquareList">ピースの形状</param>
-        private bool IsCanSetPuzzlePiece(int startIndex, List<int> pieceSquareList)
-        {
-            foreach (int offset in pieceSquareList)
-            {
-                int currentIndex = startIndex + offset;
-
-                // 範囲外の場合やピースが配置されている場合、指定した形状がはめ込めない
-                if (currentIndex >= puzzleBoardList.Count ||
-                    currentIndex % lineSquareNum < startIndex % lineSquareNum ||
-                    puzzleBoardList[currentIndex].setPieceObj != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// 盤面に列が出来ているか判定を行う
         /// </summary>
         private void CheckBoardLine()
@@ -474,8 +451,50 @@ namespace Puzzle
                 }
             }
 
+            // ストックの枠が空いている場合
+            if (stockPuzzlePiece == null)
+            {
+                // Todo: パズルピースをストックさせるように促す処理を追加する
+                return false;
+            }
+            else
+            {
+                for (int i = 0; i < puzzleBoardList.Count; i++)
+                {
+                    if (IsCanSetPuzzlePiece(i, stockPuzzlePiece.pieceSquareList))
+                    {
+                        // Todo: 
+                        return false;
+                    }
+                }
+            }
+
             return true;
         }
+
+        /// <summary>
+        /// 特定のピースのはめ込む場所があるかの判定
+        /// </summary>
+        /// <param name="startIndex">形状の判定を開始する位置のインデックス</param>
+        /// <param name="pieceSquareList">ピースの形状</param>
+        private bool IsCanSetPuzzlePiece(int startIndex, List<int> pieceSquareList)
+        {
+            foreach (int offset in pieceSquareList)
+            {
+                int currentIndex = startIndex + offset;
+
+                // 範囲外の場合やピースが配置されている場合、指定した形状がはめ込めない
+                if (currentIndex >= puzzleBoardList.Count ||
+                    currentIndex % lineSquareNum < startIndex % lineSquareNum ||
+                    puzzleBoardList[currentIndex].setPieceObj != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
 
         /// <summary>
         /// 記録がハイスコアか確認する処理

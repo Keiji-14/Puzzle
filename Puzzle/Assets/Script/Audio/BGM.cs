@@ -12,7 +12,7 @@ namespace Audio
         #endregion
 
         #region SerializeField
-        [SerializeField] AudioSource bgm;
+        [SerializeField] private AudioSource bgm;
         #endregion
 
         #region UnityEvent

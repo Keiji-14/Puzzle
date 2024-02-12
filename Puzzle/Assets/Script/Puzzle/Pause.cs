@@ -26,11 +26,11 @@ namespace Puzzle
 
         #region SerializeField
         /// <summary>リセットボタン</summary>
-        [SerializeField] Button resetBtn;
+        [SerializeField] private Button resetBtn;
         /// <summary>タイトル画面の戻るボタン</summary>
-        [SerializeField] Button titleBackBtn;
+        [SerializeField] private Button titleBackBtn;
         /// <summary>ポーズ画面を閉じるボタン</summary>
-        [SerializeField] Button closeMenuBtn;
+        [SerializeField] private Button closeMenuBtn;
         #endregion
 
         #region PublicMethod

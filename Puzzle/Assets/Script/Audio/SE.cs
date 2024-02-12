@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Audio
 {    /// <summary>
-     /// Œø‰Ê‰¹‚ÌÄ¶ˆ—
+     /// åŠ¹æœéŸ³ã®å†ç”Ÿå‡¦ç†
      /// </summary>
     public class SE : MonoBehaviour
     {
@@ -12,9 +12,9 @@ namespace Audio
         #endregion
 
         #region SerializeField
-        [SerializeField] AudioSource audioSource;
-        /// <summary>Œø‰Ê‰¹ƒŠƒXƒg</summary>
-        [SerializeField] List<AudioClip> seClipList;
+        [SerializeField] private AudioSource audioSource;
+        /// <summary>åŠ¹æœéŸ³ãƒªã‚¹ãƒˆ</summary>
+        [SerializeField] private List<AudioClip> seClipList;
         #endregion
 
         #region UnityEvent
@@ -42,9 +42,9 @@ namespace Audio
         }
 
         /// <summary>
-        /// SE‚ğÄ¶
+        /// SEã‚’å†ç”Ÿ
         /// </summary>
-        /// <param name="seName">Œø‰Ê‰¹–¼</param>
+        /// <param name="seName">åŠ¹æœéŸ³å</param>
         public void Play(SEName seName)
         {
             audioSource.PlayOneShot(seClipList[(int)seName]);
