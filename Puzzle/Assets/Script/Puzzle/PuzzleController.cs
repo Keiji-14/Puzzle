@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using TMPro;
 
 namespace Puzzle
 {
@@ -34,8 +36,10 @@ namespace Puzzle
         [SerializeField] Transform puzzleBoardParent;
         /// <summary>配置したパズルの場所</summary>
         [SerializeField] Transform setPuzzlePieceParent;
-        /// <summary>ストックする場所/summary>
+        /// <summary>ストックする場所</summary>
         [SerializeField] Transform stockPos;
+        /// <summary>ラインが消えた時に表示する</summary>
+        [SerializeField] TextMeshProUGUI comboText;
         /// <summary>パズルの生成座標</summary>
         [SerializeField] List<Vector3> createPosList = new List<Vector3>();
         [Header("Component")]
@@ -320,6 +324,8 @@ namespace Puzzle
                 DestroyLine(destroyPuzzleLineList);
 
                 AddScore(destroyLineNum);
+
+                StartCoroutine(ViewComboText(destroyLineNum));
             }
         }
 
@@ -356,6 +362,19 @@ namespace Puzzle
                 // スコアに加算
                 scoreNum += getScoreNum;
             }
+        }
+
+        private IEnumerator ViewComboText(int destroyLineNum)
+        {
+            var waitTime = 1.0f;
+
+            comboText.gameObject.SetActive(true);
+
+            comboText.text = $"{destroyLineNum}Combo";
+
+            yield return new WaitForSeconds(waitTime);
+
+            comboText.gameObject.SetActive(false);
         }
 
         /// <summary>
