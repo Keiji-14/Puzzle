@@ -269,7 +269,7 @@ namespace Puzzle
                 stockPuzzlePiece = null;
             }
 
-            SE.instance.Play(SE.SEName.DropSE);
+            SE.instance.Play(SE.SEName.SetSE);
 
             puzzlePiece.DestroyPuzzlePiece();
 
@@ -485,6 +485,7 @@ namespace Puzzle
         /// </summary>
         private void SwitchPauseMenu()
         {
+            SE.instance.Play(SE.SEName.ButtonSE);
             pause.gameObject.SetActive(!pause.gameObject.activeSelf ? true : false);
         }
         #endregion

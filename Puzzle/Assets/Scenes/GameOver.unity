@@ -902,7 +902,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 992213800}
   m_CullTransparentMesh: 1
---- !u!1 &1109098826
+--- !u!1 &1388507922
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -910,9 +910,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1109098829}
-  - component: {fileID: 1109098828}
-  - component: {fileID: 1109098827}
+  - component: {fileID: 1388507925}
+  - component: {fileID: 1388507924}
+  - component: {fileID: 1388507923}
   m_Layer: 0
   m_Name: SE
   m_TagString: Untagged
@@ -920,13 +920,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!82 &1109098827
+--- !u!82 &1388507923
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1109098826}
+  m_GameObject: {fileID: 1388507922}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -1016,31 +1016,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1109098828
+--- !u!114 &1388507924
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1109098826}
+  m_GameObject: {fileID: 1388507922}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7bcbee6a04b559643a07a490cf410b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 1109098827}
+  audioSource: {fileID: 1388507923}
   seClipList:
   - {fileID: 8300000, guid: c85bf790aadea9848b507e1767575db8, type: 3}
   - {fileID: 8300000, guid: 9898d9bc82df69f4b8441707a6d81676, type: 3}
-  - {fileID: 8300000, guid: 41d8b76705864414bbed27de86f1afbc, type: 3}
+  - {fileID: 8300000, guid: a2c7e86e1fb3b0647b377537b0901865, type: 3}
   - {fileID: 8300000, guid: 654a8c190768e6740bd33a95f97eb668, type: 3}
---- !u!4 &1109098829
+--- !u!4 &1388507925
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1109098826}
+  m_GameObject: {fileID: 1388507922}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}

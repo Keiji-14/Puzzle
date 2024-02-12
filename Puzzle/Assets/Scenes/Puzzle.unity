@@ -915,7 +915,7 @@ MonoBehaviour:
   seClipList:
   - {fileID: 8300000, guid: c85bf790aadea9848b507e1767575db8, type: 3}
   - {fileID: 8300000, guid: 9898d9bc82df69f4b8441707a6d81676, type: 3}
-  - {fileID: 8300000, guid: 41d8b76705864414bbed27de86f1afbc, type: 3}
+  - {fileID: 8300000, guid: a2c7e86e1fb3b0647b377537b0901865, type: 3}
   - {fileID: 8300000, guid: 654a8c190768e6740bd33a95f97eb668, type: 3}
 --- !u!4 &393226850
 Transform:
