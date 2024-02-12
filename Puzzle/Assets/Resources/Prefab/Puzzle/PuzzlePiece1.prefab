@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   squareID: 0
   isSetted: 0
+  destroyParticle: {fileID: 7823776862824916907, guid: e056563926ccd6047b6ef7e3b0152525, type: 3}
 --- !u!1 &9139544547086594580
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,3 +247,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   squareID: 1
   isSetted: 0
+  destroyParticle: {fileID: 7823776862824916907, guid: e056563926ccd6047b6ef7e3b0152525, type: 3}

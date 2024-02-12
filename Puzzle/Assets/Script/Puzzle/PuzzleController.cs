@@ -7,7 +7,7 @@ namespace Puzzle
 {
     public class PuzzleController : MonoBehaviour
     {
-        #region PrivateField
+        #region PublicField
         /// <summary>ゲームオーバー時の処理</summary>
         public Subject<Unit> GameOverSubject = new Subject<Unit>();
         #endregion
@@ -235,42 +235,13 @@ namespace Puzzle
                 stockPuzzlePiece = null;
             }
 
+            puzzlePiece.DestroyPuzzlePiece();
+
             CheckBoardLine();
 
             CheckPuzzleList();
 
             CheckGameOver();
-        }
-
-        /// <summary>
-        /// ゲームオーバーかどうか確認する
-        /// </summary>
-        private void CheckGameOver()
-        {
-            if (IsGameOver())
-            {
-                Debug.Log("GameOver");
-                GameOverSubject.OnNext(Unit.Default);
-            }
-        }
-
-        /// <summary>
-        /// ゲームオーバー判定
-        /// </summary>
-        private bool IsGameOver()
-        {
-            foreach (var puzzlePiece in createPuzzlePieceList)
-            {
-                for (int i = 0; i < puzzleBoardList.Count; i++)
-                {
-                    if (IsCanSetPuzzlePiece(i,  puzzlePiece.pieceSquareList))
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
         }
 
         /// <summary>
@@ -394,9 +365,7 @@ namespace Puzzle
         {
             foreach (var puzzleBoard in puzzleBoardList)
             {
-                Destroy(puzzleBoard.setPieceObj);
-
-                puzzleBoard.setPieceObj = null;
+                puzzleBoard.DestroyParticle();
             }
         }
 
@@ -408,6 +377,53 @@ namespace Puzzle
             if (createPuzzlePieceList != null && createPuzzlePieceList.Count <= 0)
             {
                 CreatePuzzle();
+            }
+        }
+
+        /// <summary>
+        /// ゲームオーバーかどうか確認する
+        /// </summary>
+        private void CheckGameOver()
+        {
+            if (IsGameOver())
+            {
+                // スコアを記録する
+                SaveScore();
+
+                GameOverSubject.OnNext(Unit.Default);
+            }
+        }
+
+        /// <summary>
+        /// ゲームオーバー判定
+        /// </summary>
+        private bool IsGameOver()
+        {
+            foreach (var puzzlePiece in createPuzzlePieceList)
+            {
+                for (int i = 0; i < puzzleBoardList.Count; i++)
+                {
+                    if (IsCanSetPuzzlePiece(i, puzzlePiece.pieceSquareList))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 記録がハイスコアか確認する処理
+        /// </summary>
+        private void SaveScore()
+        {
+            var highScoreNum = PlayerPrefs.GetInt("HighScore", 0);
+
+            // 獲得したスコアがハイスコアを越しているかの判定
+            if (scoreNum > highScoreNum)
+            {
+                PlayerPrefs.SetInt("HighScore", scoreNum);
             }
         }
         #endregion

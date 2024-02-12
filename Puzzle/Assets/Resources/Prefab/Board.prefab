@@ -117,3 +117,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setPieceObj: {fileID: 0}
+  destroyParticle: {fileID: 4847777824116773542, guid: e056563926ccd6047b6ef7e3b0152525, type: 3}

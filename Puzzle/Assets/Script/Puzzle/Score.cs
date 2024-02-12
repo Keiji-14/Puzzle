@@ -6,8 +6,10 @@ namespace Puzzle
     public class Score : MonoBehaviour
     {
         #region SerializeField 
-        /// <summary>スコアのUI</summary>
+        /// <summary>スコアのテキストUI</summary>
         [SerializeField] private TextMeshProUGUI scoreText;
+        /// <summary>ハイスコアのテキストUI</summary>
+        [SerializeField] private TextMeshProUGUI highScoreText;
         #endregion
 
         #region PublicMethod
@@ -18,6 +20,8 @@ namespace Puzzle
         {
             // スコア状態を初期化する
             scoreText.text = "0";
+
+            highScoreText.text = PlayerPrefs.GetInt("HighScore", 0).ToString();
         }
 
         /// <summary>
