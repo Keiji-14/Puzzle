@@ -1,4 +1,5 @@
 ﻿using Scene;
+using Audio;
 using System;
 using UniRx;
 using UnityEngine;
@@ -34,12 +35,14 @@ namespace GameOver
             // ゲーム画面に遷移する処理
             OnClickRetryButtonObserver.Subscribe(_ =>
             {
+                SE.instance.Play(SE.SEName.ButtonSE);
                 SceneLoader.Instance().Load(SceneLoader.SceneName.Puzzle);
             }).AddTo(this);
 
             // タイトル画面に遷移する処理
             OnClickTitleBackButtonObserver.Subscribe(_ =>
             {
+                SE.instance.Play(SE.SEName.ButtonSE);
                 SceneLoader.Instance().Load(SceneLoader.SceneName.Title);
             }).AddTo(this);
         }

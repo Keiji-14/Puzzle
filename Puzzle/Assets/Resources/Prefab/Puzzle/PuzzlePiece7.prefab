@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  squareID: 10
+  squareID: 12
   isSetted: 0
 --- !u!1 &4623405329094031027
 GameObject:
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  squareID: 21
+  squareID: 2
   isSetted: 0
 --- !u!1 &6101178078816831446
 GameObject:
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  squareID: 20
+  squareID: 3
   isSetted: 0
 --- !u!1 &7643974975915984467
 GameObject:
@@ -518,7 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  squareID: 12
+  squareID: 10
   isSetted: 0
 --- !u!1 &9131823516362111699
 GameObject:
@@ -609,7 +609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  squareID: 22
+  squareID: 1
   isSetted: 0
 --- !u!1 &9168466404078690362
 GameObject:
@@ -700,5 +700,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b64fa4e86de27449b3240004085514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  squareID: 1
+  squareID: 21
   isSetted: 0

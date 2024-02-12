@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   squareID: 11
   isSetted: 0
+  destroyParticle: {fileID: 7823776862824916907, guid: e056563926ccd6047b6ef7e3b0152525, type: 3}
 --- !u!1 &3121818445921932672
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   squareID: 10
   isSetted: 0
+  destroyParticle: {fileID: 7823776862824916907, guid: e056563926ccd6047b6ef7e3b0152525, type: 3}
 --- !u!1 &5238641516756850131
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,3 +332,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   squareID: 1
   isSetted: 0
+  destroyParticle: {fileID: 7823776862824916907, guid: e056563926ccd6047b6ef7e3b0152525, type: 3}

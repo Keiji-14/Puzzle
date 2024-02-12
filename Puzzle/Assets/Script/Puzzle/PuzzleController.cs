@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Audio;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 namespace Puzzle
 {
     public class PuzzleController : MonoBehaviour
     {
-        #region PrivateField
+        #region PublicField
         /// <summary>ゲームオーバー時の処理</summary>
         public Subject<Unit> GameOverSubject = new Subject<Unit>();
         #endregion
@@ -25,6 +29,8 @@ namespace Puzzle
         private List<PuzzlePiece> createPuzzlePieceList = new List<PuzzlePiece>();
         /// <summary>盤面のリスト</summary>
         private List<PuzzleBoard> puzzleBoardList = new List<PuzzleBoard>();
+        /// <summary>ポーズボタンを押した時の処理</summary>
+        private IObservable<Unit> OnClickPauseButtonObserver => pauseBtn.OnClickAsObservable();
         #endregion
 
         #region SerializeField
@@ -34,8 +40,12 @@ namespace Puzzle
         [SerializeField] Transform puzzleBoardParent;
         /// <summary>配置したパズルの場所</summary>
         [SerializeField] Transform setPuzzlePieceParent;
-        /// <summary>ストックする場所/summary>
+        /// <summary>ストックする場所</summary>
         [SerializeField] Transform stockPos;
+        /// <summary>ラインが消えた時に表示する</summary>
+        [SerializeField] TextMeshProUGUI comboText;
+        /// <summary>ポーズ画面のボタン</summary>
+        [SerializeField] Button pauseBtn;
         /// <summary>パズルの生成座標</summary>
         [SerializeField] List<Vector3> createPosList = new List<Vector3>();
         [Header("Component")]
@@ -45,6 +55,8 @@ namespace Puzzle
         [SerializeField] PuzzleBoard puzzleBoard;
         /// <summary>スコア</summary>
         [SerializeField] Score score;
+        /// <summary>ポーズ画面</summary>
+        [SerializeField] Pause pause;
         #endregion
 
         #region PublicMethod
@@ -58,6 +70,8 @@ namespace Puzzle
             CreateBoard();
 
             score.Init();
+
+            PauseInit();
         }
         #endregion
 
@@ -99,6 +113,26 @@ namespace Puzzle
 
                 puzzleBoardList.Add(puzzleBoardObj);
             }
+        }
+
+        /// <summary>
+        /// ポーズ関係の初期化
+        /// </summary>
+        private void PauseInit()
+        {
+            pause.Init();
+
+            pause.gameObject.SetActive(false);
+
+            OnClickPauseButtonObserver.Subscribe(_ =>
+            {
+                SwitchPauseMenu();
+            }).AddTo(this);
+
+            pause.OnClickCloseMenuButtonObserver.Subscribe(_ =>
+            {
+                SwitchPauseMenu();
+            }).AddTo(this);
         }
 
         /// <summary>
@@ -235,42 +269,15 @@ namespace Puzzle
                 stockPuzzlePiece = null;
             }
 
+            SE.instance.Play(SE.SEName.DropSE);
+
+            puzzlePiece.DestroyPuzzlePiece();
+
             CheckBoardLine();
 
             CheckPuzzleList();
 
             CheckGameOver();
-        }
-
-        /// <summary>
-        /// ゲームオーバーかどうか確認する
-        /// </summary>
-        private void CheckGameOver()
-        {
-            if (IsGameOver())
-            {
-                Debug.Log("GameOver");
-                //GameOverSubject.OnNext(Unit.Default);
-            }
-        }
-
-        /// <summary>
-        /// ゲームオーバー判定
-        /// </summary>
-        private bool IsGameOver()
-        {
-            foreach (var puzzlePiece in createPuzzlePieceList)
-            {
-                for (int i = 0; i < puzzleBoardList.Count; i++)
-                {
-                    if (IsCanSetPuzzlePiece(i,  puzzlePiece.pieceSquareList))
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
         }
 
         /// <summary>
@@ -349,6 +356,8 @@ namespace Puzzle
                 DestroyLine(destroyPuzzleLineList);
 
                 AddScore(destroyLineNum);
+
+                StartCoroutine(ViewComboText(destroyLineNum));
             }
         }
 
@@ -387,16 +396,29 @@ namespace Puzzle
             }
         }
 
+        private IEnumerator ViewComboText(int destroyLineNum)
+        {
+            var waitTime = 1.0f;
+
+            comboText.gameObject.SetActive(true);
+
+            comboText.text = $"{destroyLineNum}Combo";
+
+            yield return new WaitForSeconds(waitTime);
+
+            comboText.gameObject.SetActive(false);
+        }
+
         /// <summary>
         /// 完成した列を削除する
         /// </summary>
         private void DestroyLine(List<PuzzleBoard> puzzleBoardList)
         {
+            SE.instance.Play(SE.SEName.DestroySE);
+
             foreach (var puzzleBoard in puzzleBoardList)
             {
-                Destroy(puzzleBoard.setPieceObj);
-
-                puzzleBoard.setPieceObj = null;
+                puzzleBoard.DestroyParticle();
             }
         }
 
@@ -409,6 +431,61 @@ namespace Puzzle
             {
                 CreatePuzzle();
             }
+        }
+
+        /// <summary>
+        /// ゲームオーバーかどうか確認する
+        /// </summary>
+        private void CheckGameOver()
+        {
+            if (IsGameOver())
+            {
+                // スコアを記録する
+                SaveScore();
+
+                GameOverSubject.OnNext(Unit.Default);
+            }
+        }
+
+        /// <summary>
+        /// ゲームオーバー判定
+        /// </summary>
+        private bool IsGameOver()
+        {
+            foreach (var puzzlePiece in createPuzzlePieceList)
+            {
+                for (int i = 0; i < puzzleBoardList.Count; i++)
+                {
+                    if (IsCanSetPuzzlePiece(i, puzzlePiece.pieceSquareList))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 記録がハイスコアか確認する処理
+        /// </summary>
+        private void SaveScore()
+        {
+            var highScoreNum = PlayerPrefs.GetInt("HighScore", 0);
+
+            // 獲得したスコアがハイスコアを越しているかの判定
+            if (scoreNum > highScoreNum)
+            {
+                PlayerPrefs.SetInt("HighScore", scoreNum);
+            }
+        }
+
+        /// <summary>
+        /// ポーズ画面の表示切替の処理
+        /// </summary>
+        private void SwitchPauseMenu()
+        {
+            pause.gameObject.SetActive(!pause.gameObject.activeSelf ? true : false);
         }
         #endregion
     }
