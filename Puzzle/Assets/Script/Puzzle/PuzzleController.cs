@@ -250,7 +250,7 @@ namespace Puzzle
             if (IsGameOver())
             {
                 Debug.Log("GameOver");
-                //GameOverSubject.OnNext(Unit.Default);
+                GameOverSubject.OnNext(Unit.Default);
             }
         }
 
