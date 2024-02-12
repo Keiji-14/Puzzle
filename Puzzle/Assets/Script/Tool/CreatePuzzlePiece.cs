@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Puzzle;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,8 @@ public class CreatePuzzlePiece : EditorWindow
 
     private Square horizontal = Square.One;
     private Square vertical = Square.One;
+
+    private Sprite selectedSprite;
 
     private List<List<bool>> checkBoxList;
     #endregion
@@ -53,10 +56,17 @@ public class CreatePuzzlePiece : EditorWindow
 
         GUILayout.Space(10);
 
+        GUILayout.Label("Select a Sprite:", EditorStyles.boldLabel);
+
+        GUILayout.Space(10);
+
+        // スプライト選択フィールド
+        selectedSprite = EditorGUILayout.ObjectField("Sprite", selectedSprite, typeof(Sprite), false) as Sprite;
+
         if (GUILayout.Button("Set Square Board"))
         {
             SetSquareBoard();
-        }
+        }        
 
         GUILayout.Space(10);
 
@@ -112,18 +122,66 @@ public class CreatePuzzlePiece : EditorWindow
     /// </summary>
     private void CreatePuzzlePiecePrefabObject()
     {
-        var puzzlePiece = new GameObject("PuzzlePiece");
+        var puzzlePiece = new GameObject("PuzzlePiece", typeof(RectTransform), typeof(PuzzlePiece)).GetComponent<PuzzlePiece>();
 
-        // プレハブとして保存
-        var prefabPath = prefabFolderPath + "/PuzzlePiece7.prefab";
-        PrefabUtility.SaveAsPrefabAsset(puzzlePiece, prefabPath);
+        int rowCount = checkBoxList.Count;
+        int colCount = rowCount > 0 ? checkBoxList[0].Count : 0;
 
-        // シーンに追加したオブジェクトは削除
-        Destroy(puzzlePiece);
+        for (int x = 0; x < rowCount; x++) 
+        {
+            for (int y = 0; y < colCount; y++)
+            {
+                if (checkBoxList[x][y])
+                {
+                    var piece = new GameObject("Piece", typeof(Image), typeof(Piece)).GetComponent<Piece>();
+                    piece.transform.SetParent(puzzlePiece.transform);
+
+                    SetPiece(piece, x, y);
+
+                    puzzlePiece.pieceList.Add(piece);
+                }
+            }
+        }
+
+        // フォルダ内のプレハブファイルを取得
+        string[] prefabPaths = AssetDatabase.FindAssets("t:Prefab", new[] { prefabFolderPath });
+
+        Debug.Log(prefabPaths.Length);
+        // プレハブファイル数に応じて名番号を設定・保存
+        var prefabPath = prefabFolderPath + $"/PuzzlePiece{prefabPaths.Length + 1}.prefab";
+        PrefabUtility.SaveAsPrefabAsset(puzzlePiece.gameObject, prefabPath);
 
         // リフレッシュして変更を反映
         AssetDatabase.Refresh();
         Debug.Log("Puzzle Pieces Created!");
+    }
+
+    /// <summary>
+    /// ピースの状態を設定する処理
+    /// </summary>
+    private void SetPiece(Piece piece, int x, int y)
+    {
+        // マスの番号を設定
+        piece.squareID = x * 10 + y;
+
+        // ピースのサイズ
+        var pieceSize = 90f;
+        // ピースの間隔
+        var spacing = 10f;
+
+        var pieceRect = piece.GetComponent<RectTransform>();
+        var pieceImg = piece.GetComponent<Image>();
+
+        var offsetX = (checkBoxList.Count - 1) * (pieceSize + spacing) / 2;
+        var offsetY = (checkBoxList[x].Count - 1) * (pieceSize + spacing) / 2;
+
+        var pieceX = -y * (pieceSize + spacing) + offsetY;
+        var pieceY = -x * (pieceSize + spacing) + offsetX;
+        
+        piece.transform.localPosition = new Vector3(pieceX, pieceY, 0);
+
+        pieceRect.sizeDelta = new Vector2(pieceSize, pieceSize);
+        pieceImg.sprite = selectedSprite;
     }
     #endregion
 }
