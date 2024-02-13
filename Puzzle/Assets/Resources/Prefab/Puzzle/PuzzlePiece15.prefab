@@ -243,6 +243,7 @@ MonoBehaviour:
   - {fileID: 1669616595075295078}
   - {fileID: 6356367982977986691}
   - {fileID: 6223116292407510297}
+  unSetSprite: {fileID: 21300000, guid: 0fb61526504b34a49a04daaa0057c77c, type: 3}
 --- !u!1 &5386590814020094037
 GameObject:
   m_ObjectHideFlags: 0

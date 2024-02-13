@@ -31,6 +31,11 @@ namespace Puzzle
         private Vector3 defaultSize;
         #endregion
 
+        #region SerializeField
+        /// <summary>配置場所が無い時のスプライト</summary>
+        [SerializeField] private Sprite unSetSprite;
+        #endregion
+
         #region EventSystemMethod
         public void OnPointerDown(PointerEventData eventData)
         {
@@ -59,6 +64,8 @@ namespace Puzzle
             // ピースの形状を保持
             foreach (var piece in pieceList)
             {
+                piece.Init();
+
                 pieceSquareList.Add(piece.squareID);
             }
 
@@ -106,6 +113,28 @@ namespace Puzzle
             foreach (var piece in pieceList)
             {
                 piece.isSetted = false;
+            }
+        }
+
+        /// <summary>
+        /// 通常のスプライトに切り替える
+        /// </summary>
+        public void SwitchDefaultSprite()
+        {
+            foreach (var piece in pieceList)
+            {
+                piece.SetDefaultSprite();
+            }
+        }
+
+        /// <summary>
+        /// 配置場所が無い時のスプライトに切り替える
+        /// </summary>
+        public void SwitchUnSetSprite()
+        {
+            foreach (var piece in pieceList)
+            {
+                piece.SetUnSetSprite(unSetSprite);
             }
         }
         #endregion

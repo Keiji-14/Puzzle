@@ -146,6 +146,7 @@ MonoBehaviour:
   pieceList:
   - {fileID: 3509633023986387353}
   - {fileID: 4560367173142224240}
+  unSetSprite: {fileID: 21300000, guid: 0fb61526504b34a49a04daaa0057c77c, type: 3}
 --- !u!1 &7582235076197534516
 GameObject:
   m_ObjectHideFlags: 0

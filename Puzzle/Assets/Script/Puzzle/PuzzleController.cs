@@ -72,9 +72,9 @@ namespace Puzzle
         /// </summary>
         public void Init()
         {
-            CreatePuzzle();
-
             CreateBoard();
+
+            CreatePuzzle();
 
             score.Init();
 
@@ -105,6 +105,8 @@ namespace Puzzle
                 }).AddTo(this);
 
                 createPuzzlePieceList.Add(puzzlePieceObj);
+
+                ChackPuzzleState();
             }
         }
 
@@ -425,9 +427,34 @@ namespace Puzzle
         /// </summary>
         private void CheckPuzzleList()
         {
+            ChackPuzzleState();
+
             if (createPuzzlePieceList != null && createPuzzlePieceList.Count <= 0)
             {
                 CreatePuzzle();
+            }
+        }
+
+        /// <summary>
+        /// 操作するパズルピースの状態を確認する処理
+        /// </summary>
+        private void ChackPuzzleState()
+        {
+            foreach (var puzzlePiece in createPuzzlePieceList)
+            {
+                for (int i = 0; i < puzzleBoardList.Count; i++)
+                {
+                    // はめ込める場所があるなら通常スプライト
+                    if (IsCanSetPuzzlePiece(i, puzzlePiece.pieceSquareList))
+                    {
+                        puzzlePiece.SwitchDefaultSprite();
+                        break;
+                    }
+                    else
+                    {
+                        puzzlePiece.SwitchUnSetSprite();
+                    }
+                }
             }
         }
 

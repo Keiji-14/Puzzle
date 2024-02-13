@@ -1,4 +1,4 @@
-﻿using Puzzle;
+﻿/*using Puzzle;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -206,4 +206,4 @@ public class CreatePuzzlePiece : EditorWindow
         pieceImg.sprite = selectedSprite;
     }
     #endregion
-}
+}*/

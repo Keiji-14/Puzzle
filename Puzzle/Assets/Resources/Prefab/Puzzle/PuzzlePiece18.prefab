@@ -516,3 +516,4 @@ MonoBehaviour:
   - {fileID: 728126817411542201}
   - {fileID: 954510912295058354}
   - {fileID: 7301822494962981701}
+  unSetSprite: {fileID: 21300000, guid: 0fb61526504b34a49a04daaa0057c77c, type: 3}
