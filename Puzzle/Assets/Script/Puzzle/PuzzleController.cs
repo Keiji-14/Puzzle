@@ -52,14 +52,18 @@ namespace Puzzle
         /// <summary>パズルの生成座標</summary>
         [SerializeField] private List<Vector3> createPosList = new List<Vector3>();
         [Header("Component")]
-        /// <summary>生成するパズルピースのプレハブ</summary>
-        [SerializeField] private List<PuzzlePiece> puzzlePieceList;
         /// <summary>生成する配置枠のプレハブ</summary>
         [SerializeField] private PuzzleBoard puzzleBoard;
         /// <summary>スコア</summary>
         [SerializeField] private Score score;
         /// <summary>ポーズ画面</summary>
         [SerializeField] private Pause pause;
+        /// <summary>パズルピースをストックするように促すUI</summary>
+        [SerializeField] private BlinkUI settingStockUI;
+        /// <summary>ストックからパズルピースを外すように促すUI</summary>
+        [SerializeField] private BlinkUI unfastenStockUI;
+        /// <summary>生成するパズルピースのプレハブ</summary>
+        [SerializeField] private List<PuzzlePiece> puzzlePieceList;
         #endregion
 
         #region PublicMethod
@@ -178,7 +182,13 @@ namespace Puzzle
 
                 createPuzzlePieceList.Remove(puzzlePiece);
 
+                settingStockUI.gameObject.SetActive(false);
+
+                unfastenStockUI.gameObject.SetActive(false);
+
                 CheckPuzzleList();
+
+                CheckGameOver();
 
                 return;
             }
@@ -411,7 +421,7 @@ namespace Puzzle
         }
 
         /// <summary>
-        /// 操作するパズルが残っているか判定を行う
+        /// 操作するパズルピースの状態を確認する処理
         /// </summary>
         private void CheckPuzzleList()
         {
@@ -454,16 +464,23 @@ namespace Puzzle
             // ストックの枠が空いている場合
             if (stockPuzzlePiece == null)
             {
-                // Todo: パズルピースをストックさせるように促す処理を追加する
+                // パズルピースをストックさせるように促す
+                settingStockUI.gameObject.SetActive(true);
+                settingStockUI.ShowUI();
+
                 return false;
             }
             else
             {
+                // ストック枠のパズルピースがハマる場所がある場合
                 for (int i = 0; i < puzzleBoardList.Count; i++)
                 {
                     if (IsCanSetPuzzlePiece(i, stockPuzzlePiece.pieceSquareList))
                     {
-                        // Todo: 
+                        // ストックからパズルピースを外すように促す
+                        unfastenStockUI.gameObject.SetActive(true);
+                        unfastenStockUI.ShowUI();
+
                         return false;
                     }
                 }
