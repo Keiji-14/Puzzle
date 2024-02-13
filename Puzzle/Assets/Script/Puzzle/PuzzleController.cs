@@ -186,8 +186,6 @@ namespace Puzzle
 
                 settingStockUI.gameObject.SetActive(false);
 
-                unfastenStockUI.gameObject.SetActive(false);
-
                 CheckPuzzleList();
 
                 CheckGameOver();
@@ -273,6 +271,8 @@ namespace Puzzle
         {
             createPuzzlePieceList.Find(piece => piece == puzzlePiece);
 
+            SE.instance.Play(SE.SEName.SetSE);
+
             // 生成したパズルピースのリストからかどうかを判定
             if (createPuzzlePieceList.Find(piece => piece == puzzlePiece))
             {
@@ -282,9 +282,8 @@ namespace Puzzle
             {
                 // ストックの場合はストックを空にする
                 stockPuzzlePiece = null;
+                unfastenStockUI.gameObject.SetActive(false);
             }
-
-            SE.instance.Play(SE.SEName.SetSE);
 
             puzzlePiece.DestroyPuzzlePiece();
 
