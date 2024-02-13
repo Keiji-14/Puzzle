@@ -106,7 +106,7 @@ namespace Puzzle
 
                 createPuzzlePieceList.Add(puzzlePieceObj);
 
-                ChackPuzzleState();
+                ChackPuzzleState(puzzlePieceObj);
             }
         }
 
@@ -427,7 +427,13 @@ namespace Puzzle
         /// </summary>
         private void CheckPuzzleList()
         {
-            ChackPuzzleState();
+            foreach (var puzzlePiece in createPuzzlePieceList)
+            {
+                ChackPuzzleState(puzzlePiece);
+            }
+
+            // ストックのパズルピースの状態を確認する
+            ChackPuzzleState(stockPuzzlePiece);
 
             if (createPuzzlePieceList != null && createPuzzlePieceList.Count <= 0)
             {
@@ -438,22 +444,24 @@ namespace Puzzle
         /// <summary>
         /// 操作するパズルピースの状態を確認する処理
         /// </summary>
-        private void ChackPuzzleState()
+        private void ChackPuzzleState(PuzzlePiece puzzlePiece)
         {
-            foreach (var puzzlePiece in createPuzzlePieceList)
+            if (puzzlePiece == null)
             {
-                for (int i = 0; i < puzzleBoardList.Count; i++)
+                return;
+            }
+
+            for (int i = 0; i < puzzleBoardList.Count; i++)
+            {
+                // はめ込める場所があるなら通常スプライト
+                if (IsCanSetPuzzlePiece(i, puzzlePiece.pieceSquareList))
                 {
-                    // はめ込める場所があるなら通常スプライト
-                    if (IsCanSetPuzzlePiece(i, puzzlePiece.pieceSquareList))
-                    {
-                        puzzlePiece.SwitchDefaultSprite();
-                        break;
-                    }
-                    else
-                    {
-                        puzzlePiece.SwitchUnSetSprite();
-                    }
+                    puzzlePiece.SwitchDefaultSprite();
+                    break;
+                }
+                else
+                {
+                    puzzlePiece.SwitchUnSetSprite();
                 }
             }
         }
